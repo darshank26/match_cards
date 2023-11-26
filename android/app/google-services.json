@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "446264416159",
+    "project_id": "math-cards-53f47",
+    "storage_bucket": "math-cards-53f47.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446264416159:android:48006b34e99b92025a0faa",
+        "android_client_info": {
+          "package_name": "com.darshankomu.match_cards"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-2L74hmSwPZHhagtzzTbVNxzz9PqZGmE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
