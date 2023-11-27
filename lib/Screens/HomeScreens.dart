@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:match_cards/Screens/AddScreen.dart';
 import 'package:match_cards/utils/constants.dart';
+import 'package:page_transition/page_transition.dart';
 
 class HomeScreens extends StatefulWidget {
   const HomeScreens({Key? key}) : super(key: key);
@@ -11,8 +14,16 @@ class HomeScreens extends StatefulWidget {
 }
 
 class _HomeScreensState extends State<HomeScreens> {
+
+
+
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+    ));
+
     return Scaffold(
       backgroundColor: kback,
       body: SingleChildScrollView(
@@ -26,12 +37,13 @@ class _HomeScreensState extends State<HomeScreens> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.settings,size: 40,color: Colors.white60,),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
                   child: Icon(Icons.star_rate,size: 40,color: Colors.white60,),
                 ) ,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(Icons.settings,size: 40,color: Colors.white60,),
+                ),
+
               ],
             ),
 
@@ -41,7 +53,7 @@ class _HomeScreensState extends State<HomeScreens> {
                mainAxisAlignment: MainAxisAlignment.center,
                children: [
                  Text("Math Cards",
-                    style: GoogleFonts.akayaTelivigala(textStyle: TextStyle(fontSize: 66,color: Colors.white70,fontWeight: FontWeight.w800,letterSpacing: 1))
+                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle(fontSize: 60,color: Colors.white70,fontWeight: FontWeight.w800,letterSpacing: 0.5))
             ),
                ],
              ),
@@ -56,17 +68,21 @@ class _HomeScreensState extends State<HomeScreens> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                        backgroundColor: ksplashback,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text("+",
-                              style: GoogleFonts.akayaTelivigala(textStyle: TextStyle(fontSize: 100,color: Colors.white70,fontWeight: FontWeight.w800,))
+                      GestureDetector(
+                        onTap : () {
+                          Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: AddScreen(), childCurrent: HomeScreens()));
+                          },
+                        child: CircleAvatar(
+                          backgroundColor: ksplashback,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text("+",
+                                style: GoogleFonts.akayaTelivigala(textStyle: TextStyle(fontSize: 100,color: Colors.white70,fontWeight: FontWeight.w800,))
+                            ),
                           ),
-                        ),
-                        maxRadius: 80,
-                        foregroundImage: NetworkImage("enterImageUrl"),
+                          maxRadius: 80,
         ),
+                      ),
 
                       CircleAvatar(
                         backgroundColor: ksplashback,
@@ -77,7 +93,6 @@ class _HomeScreensState extends State<HomeScreens> {
                           ),
                         ),
                         maxRadius: 80,
-                        foregroundImage: NetworkImage("enterImageUrl"),
                       ),
                     ],
                   ),
@@ -98,7 +113,6 @@ class _HomeScreensState extends State<HomeScreens> {
                           ),
                         ),
                         maxRadius: 80,
-                        foregroundImage: NetworkImage("enterImageUrl"),
                       ),
 
                       CircleAvatar(
@@ -110,7 +124,6 @@ class _HomeScreensState extends State<HomeScreens> {
                           ),
                         ),
                         maxRadius: 80,
-                        foregroundImage: NetworkImage("enterImageUrl"),
                       ),
                     ],
                   ),
