@@ -1,10 +1,13 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:match_cards/Screens/AddScreen.dart';
+import 'package:match_cards/Screens/SettingScreen.dart';
 import 'package:match_cards/utils/constants.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 class HomeScreens extends StatefulWidget {
   const HomeScreens({Key? key}) : super(key: key);
@@ -19,6 +22,8 @@ class _HomeScreensState extends State<HomeScreens> {
 
   @override
   Widget build(BuildContext context) {
+
+    final assetsAudioPlayer = AssetsAudioPlayer();
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -39,9 +44,15 @@ class _HomeScreensState extends State<HomeScreens> {
                   padding: const EdgeInsets.all(8.0),
                   child: Icon(Icons.star_rate,size: 40,color: Colors.white60,),
                 ) ,
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.settings,size: 40,color: Colors.white60,),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, PageTransition(type: PageTransitionType.topToBottom, child: SettingScreen(), childCurrent: HomeScreens()));
+
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(Icons.settings,size: 40,color: Colors.white60,),
+                  ),
                 ),
 
               ],
@@ -70,6 +81,9 @@ class _HomeScreensState extends State<HomeScreens> {
                     children: [
                       GestureDetector(
                         onTap : () {
+                          assetsAudioPlayer.open(
+                            Audio("assets/audios/homeclick.wav"),
+                          );
                           Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: AddScreen(), childCurrent: HomeScreens()));
                           },
                         child: CircleAvatar(
@@ -131,7 +145,6 @@ class _HomeScreensState extends State<HomeScreens> {
 
               ],
             ),
-
           ],
         ),
       ),

@@ -31,8 +31,8 @@ class _AddScreenState extends State<AddScreen> {
     // TODO: implement initState
     super.initState();
 
-    n1 = random_1.nextInt(9).toString();
-    n2 = random_2.nextInt(9).toString();
+    n1 = random_1.nextInt(99).toString();
+    n2 = random_2.nextInt(99).toString();
 
     setState(() {
       ans = random_ans.nextInt(4).toString();
