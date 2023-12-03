@@ -1,4 +1,5 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:countup/countup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -73,19 +74,26 @@ class _ResultScreenState extends State<ResultScreen> {
             ),
 
 
-            SizedBox(height: 10,),
-
             CircleAvatar(
               backgroundColor: ksplashback,
-              child: Align(
-                alignment: Alignment.center,
-                child: Text('100%' ,
-                    style: GoogleFonts.akayaTelivigala(textStyle: TextStyle( height: 0.1,fontSize: 126,color: Colors.white70,fontWeight: FontWeight.w900,))
-                ),
-              ),
               maxRadius: 90,
-            ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Countup(
+                    begin: 0,
+                    end: 100,
+                    duration: Duration(seconds: 2),
+                    separator: ',',
+                      style: GoogleFonts.akayaTelivigala(textStyle: TextStyle( height: 0.3,fontSize: 126,color: Colors.white70,fontWeight: FontWeight.w900,))
 
+                  ),
+                  Text('%' ,
+                      style: GoogleFonts.akayaTelivigala(textStyle: TextStyle( height: 0.5,fontSize: 86,color: Colors.white70,fontWeight: FontWeight.w900,letterSpacing: 0.7))
+                  ),
+                ],
+              ),
+            ),
             SizedBox(height: 30,),
 
             Row(

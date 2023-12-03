@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_shake_animated/flutter_shake_animated.dart';
 import 'package:flutter_shakemywidget/flutter_shakemywidget.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
