@@ -3,11 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:launch_review/launch_review.dart';
 import 'package:match_cards/Screens/AddScreen.dart';
 import 'package:match_cards/Screens/SettingScreen.dart';
 import 'package:match_cards/utils/constants.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+
+import '../AdHelper/adshelper.dart';
 
 class HomeScreens extends StatefulWidget {
   const HomeScreens({Key? key}) : super(key: key);
@@ -18,12 +23,47 @@ class HomeScreens extends StatefulWidget {
 
 class _HomeScreensState extends State<HomeScreens> {
 
+  final assetsAudioPlayer = AssetsAudioPlayer();
 
+  late BannerAd _bannerAd;
+
+  bool _isBannerAdReady = false;
+
+
+  @override
+  void initState() {
+    super.initState();
+    _bannerAd = BannerAd(
+      adUnitId: AdHelper.bannerAdUnitIdOfHomeScreen,
+      request: AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print('Failed to load a banner ad: ${err.message}');
+          _isBannerAdReady = false;
+          ad.dispose();
+        },
+      ),
+    );
+    _bannerAd.load();
+
+  }
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bannerAd.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
 
-    final assetsAudioPlayer = AssetsAudioPlayer();
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -40,14 +80,27 @@ class _HomeScreensState extends State<HomeScreens> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.star_rate,size: 40,color: Colors.white60,),
+                GestureDetector(
+                  onTap: () {
+                    assetsAudioPlayer.open(
+                      Audio("assets/audios/click.wav"),
+                    );
+
+                    launchPlay();
+
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(Icons.star_rate,size: 40,color: Colors.white60,),
+                  ),
                 ) ,
                 GestureDetector(
                   onTap: () {
                     Navigator.push(context, PageTransition(type: PageTransitionType.topToBottom, child: SettingScreen(), childCurrent: HomeScreens()));
 
+                    assetsAudioPlayer.open(
+                      Audio("assets/audios/click.wav"),
+                    );
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -68,7 +121,9 @@ class _HomeScreensState extends State<HomeScreens> {
             ),
                ],
              ),
+
             SizedBox(height: 50,),
+
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -149,18 +204,25 @@ class _HomeScreensState extends State<HomeScreens> {
         ),
       ),
       bottomNavigationBar: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(Icons.settings,size: 40,color: Colors.white60,),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(Icons.star_rate,size: 40,color: Colors.white60,),
-          ) ,
-      ],
-    ),
+          if (_isBannerAdReady)
+            Container(
+              width: _bannerAd.size.width.toDouble(),
+              height: _bannerAd.size.height.toDouble(),
+              child: AdWidget(ad: _bannerAd),
+            ),
+        ],
+      ),
+
     );
   }
+
+
+}
+
+void launchPlay() async {
+  LaunchReview.launch(
+    androidAppId: androidAppIdValue,
+    iOSAppId: iOSAppIdValue,);
 }
