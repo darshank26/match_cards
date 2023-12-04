@@ -10,7 +10,11 @@ import 'package:match_cards/utils/constants.dart';
 import 'package:page_transition/page_transition.dart';
 
 class ResultScreen extends StatefulWidget {
-  const ResultScreen({Key? key}) : super(key: key);
+  final String correctNo;
+  final String wrongNo;
+
+  const ResultScreen(this.correctNo,this.wrongNo,{Key? key}) : super(key: key);
+
 
   @override
   State<ResultScreen> createState() => _ResultScreenState();
@@ -46,6 +50,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     assetsAudioPlayer.open(
                       Audio("assets/audios/click.wav"),
                     );
+                    Navigator.pop(context);
 
                   },
                   child: Padding(
@@ -55,13 +60,11 @@ class _ResultScreenState extends State<ResultScreen> {
                 ) ,
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context, PageTransition(type: PageTransitionType.topToBottom, child: HomeScreens(), childCurrent: ResultScreen()));
+                    Navigator.push(context, PageTransition(type: PageTransitionType.topToBottom, child: HomeScreens(), childCurrent: ResultScreen(widget.correctNo,widget.wrongNo)));
 
                     assetsAudioPlayer.open(
                       Audio("assets/audios/click.wav"),
                     );
-
-
                     launchPlay();
                   },
                   child: Padding(
@@ -73,10 +76,9 @@ class _ResultScreenState extends State<ResultScreen> {
               ],
             ),
 
-
             CircleAvatar(
               backgroundColor: ksplashback,
-              maxRadius: 90,
+              maxRadius: 95,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -100,7 +102,7 @@ class _ResultScreenState extends State<ResultScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('5' ,
+                Text('${int.parse(widget.correctNo) - int.parse(widget.wrongNo)}' ,
                     style: GoogleFonts.akayaTelivigala(textStyle: TextStyle( height: 0.1,fontSize: 86,color: Colors.white70,fontWeight: FontWeight.w900,))
                 ),
                 SizedBox(width: 40,),
@@ -115,7 +117,7 @@ class _ResultScreenState extends State<ResultScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('1' ,
+                Text('${widget.wrongNo}' ,
                     style: GoogleFonts.akayaTelivigala(textStyle: TextStyle( height: 0.1,fontSize: 86,color: Colors.white70,fontWeight: FontWeight.w900,))
                 ),
                 SizedBox(width: 40,),

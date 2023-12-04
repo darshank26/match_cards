@@ -32,6 +32,13 @@ class _AddScreenState extends State<AddScreen> {
   var ans;
   var getQData;
   var _checkCounter = 1;
+  var _countCorrect = 0;
+  var _countWorng = 0;
+
+  bool _countWrong_0 = false;
+  bool _countWrong_1 = false;
+  bool _countWrong_2 = false;
+  bool _countWrong_3 = false;
 
   final assetsAudioPlayer = AssetsAudioPlayer();
   final shakeKey_0 = GlobalKey<ShakeWidgetState>();
@@ -148,11 +155,13 @@ class _AddScreenState extends State<AddScreen> {
                                 Audio("assets/audios/correct.wav"),
                               );
 
+                              _countCorrect = _countCorrect + 1;
+                              print(_countCorrect);
 
 
                               if(_checkCounter == int.parse(getQData))
                                 {
-                                  Navigator.push(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(), childCurrent: AddScreen()));
+                                  Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString()), childCurrent: AddScreen()));
                                 }
                               else
                                 {
@@ -163,6 +172,11 @@ class _AddScreenState extends State<AddScreen> {
                             }
                             else
                               {
+                                if(_countWrong_0 == false)
+                                {
+                                  _countWorng = _countWorng + 1;
+                                }
+
                                 shakeKey_0.currentState?.shake();
 
                                 assetsAudioPlayer.open(
@@ -201,9 +215,13 @@ class _AddScreenState extends State<AddScreen> {
                                 Audio("assets/audios/correct.wav"),
                               );
 
+                              _countCorrect = _countCorrect + 1;
+                              print(_countCorrect);
+
+
                               if(_checkCounter == int.parse(getQData))
                               {
-                                Navigator.push(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(), childCurrent: AddScreen()));
+                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString()), childCurrent: AddScreen()));
                               }
                               else
                               {
@@ -215,6 +233,11 @@ class _AddScreenState extends State<AddScreen> {
                             }
                             else
                               {
+                                if(_countWrong_1 == false)
+                                {
+                                  _countWorng = _countWorng + 1;
+                                }
+
                                 shakeKey_1.currentState?.shake();
 
                                 assetsAudioPlayer.open(
@@ -262,9 +285,15 @@ class _AddScreenState extends State<AddScreen> {
                                 Audio("assets/audios/correct.wav"),
                               );
 
+                              _countCorrect = _countCorrect + 1;
+
+                              print(_countCorrect);
+
+
+
                               if(_checkCounter == int.parse(getQData))
                               {
-                                Navigator.push(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(), childCurrent: AddScreen()));
+                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString()), childCurrent: AddScreen()));
                               }
                               else
                               {
@@ -276,6 +305,10 @@ class _AddScreenState extends State<AddScreen> {
                             else
                               {
 
+                                if(_countWrong_2 == false)
+                                {
+                                  _countWorng = _countWorng + 1;
+                                }
                                 shakeKey_2.currentState?.shake();
 
                                 assetsAudioPlayer.open(
@@ -314,9 +347,14 @@ class _AddScreenState extends State<AddScreen> {
                                 Audio("assets/audios/correct.wav"),
                               );
 
+                              _countCorrect = _countCorrect + 1;
+                              print(_countCorrect);
+
+
+
                               if(_checkCounter == int.parse(getQData))
                               {
-                                Navigator.push(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(), childCurrent: AddScreen()));
+                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString()), childCurrent: AddScreen()));
                               }
                               else
                               {
@@ -327,6 +365,12 @@ class _AddScreenState extends State<AddScreen> {
 
                             }else
                               {
+                                if(_countWrong_3 == false)
+                                {
+                                  _countWorng = _countWorng + 1;
+                                  _countWrong_3 = true;
+                                }
+
                                 shakeKey_3.currentState?.shake();
 
                                 assetsAudioPlayer.open(
@@ -381,6 +425,10 @@ class _AddScreenState extends State<AddScreen> {
       n1 = random_1.nextInt(99).toString();
       n2 = random_2.nextInt(99).toString();
       ans = random_ans.nextInt(4).toString();
+      // _countWrong_1 = false;
+      // _countWrong_2 = false;
+      // _countWrong_3 = false;
+      // _countWrong_4 = false;
 
     });
   }
