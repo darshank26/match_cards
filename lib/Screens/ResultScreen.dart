@@ -12,8 +12,9 @@ import 'package:page_transition/page_transition.dart';
 class ResultScreen extends StatefulWidget {
   final String correctNo;
   final String wrongNo;
+  final String getMaxQ;
 
-  const ResultScreen(this.correctNo,this.wrongNo,{Key? key}) : super(key: key);
+  const ResultScreen(this.correctNo,this.wrongNo,this.getMaxQ,{Key? key}) : super(key: key);
 
 
   @override
@@ -26,8 +27,10 @@ class _ResultScreenState extends State<ResultScreen> {
   final assetsAudioPlayer = AssetsAudioPlayer();
 
 
+
   @override
   Widget build(BuildContext context) {
+
 
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -60,7 +63,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 ) ,
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context, PageTransition(type: PageTransitionType.topToBottom, child: HomeScreens(), childCurrent: ResultScreen(widget.correctNo,widget.wrongNo)));
+                    Navigator.push(context, PageTransition(type: PageTransitionType.topToBottom, child: HomeScreens(), childCurrent: ResultScreen(widget.correctNo,widget.wrongNo,widget.getMaxQ)));
 
                     assetsAudioPlayer.open(
                       Audio("assets/audios/click.wav"),
@@ -84,7 +87,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 children: [
                   Countup(
                     begin: 0,
-                    end: 100,
+                    end: ((int.parse(widget.correctNo) - int.parse(widget.wrongNo))/int.parse(widget.getMaxQ)) * 100,
                     duration: Duration(seconds: 2),
                     separator: ',',
                       style: GoogleFonts.akayaTelivigala(textStyle: TextStyle( height: 0.3,fontSize: 126,color: Colors.white70,fontWeight: FontWeight.w900,))

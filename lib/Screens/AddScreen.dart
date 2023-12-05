@@ -161,7 +161,7 @@ class _AddScreenState extends State<AddScreen> {
 
                               if(_checkCounter == int.parse(getQData))
                                 {
-                                  Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString()), childCurrent: AddScreen()));
+                                  Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString()), childCurrent: AddScreen()));
                                 }
                               else
                                 {
@@ -175,6 +175,8 @@ class _AddScreenState extends State<AddScreen> {
                                 if(_countWrong_0 == false)
                                 {
                                   _countWorng = _countWorng + 1;
+                                  _countWrong_0 = true;
+
                                 }
 
                                 shakeKey_0.currentState?.shake();
@@ -221,7 +223,7 @@ class _AddScreenState extends State<AddScreen> {
 
                               if(_checkCounter == int.parse(getQData))
                               {
-                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString()), childCurrent: AddScreen()));
+                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString()), childCurrent: AddScreen()));
                               }
                               else
                               {
@@ -236,6 +238,8 @@ class _AddScreenState extends State<AddScreen> {
                                 if(_countWrong_1 == false)
                                 {
                                   _countWorng = _countWorng + 1;
+                                  _countWrong_1 = true;
+
                                 }
 
                                 shakeKey_1.currentState?.shake();
@@ -293,7 +297,7 @@ class _AddScreenState extends State<AddScreen> {
 
                               if(_checkCounter == int.parse(getQData))
                               {
-                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString()), childCurrent: AddScreen()));
+                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString()), childCurrent: AddScreen()));
                               }
                               else
                               {
@@ -308,6 +312,8 @@ class _AddScreenState extends State<AddScreen> {
                                 if(_countWrong_2 == false)
                                 {
                                   _countWorng = _countWorng + 1;
+                                  _countWrong_2 = true;
+
                                 }
                                 shakeKey_2.currentState?.shake();
 
@@ -354,7 +360,7 @@ class _AddScreenState extends State<AddScreen> {
 
                               if(_checkCounter == int.parse(getQData))
                               {
-                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString()), childCurrent: AddScreen()));
+                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString()), childCurrent: AddScreen()));
                               }
                               else
                               {
