@@ -13,8 +13,9 @@ class ResultScreen extends StatefulWidget {
   final String correctNo;
   final String wrongNo;
   final String getMaxQ;
+  final String getTime;
 
-  const ResultScreen(this.correctNo,this.wrongNo,this.getMaxQ,{Key? key}) : super(key: key);
+  const ResultScreen(this.correctNo,this.wrongNo,this.getMaxQ, this.getTime, {Key? key}) : super(key: key);
 
 
   @override
@@ -63,7 +64,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 ) ,
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context, PageTransition(type: PageTransitionType.topToBottom, child: HomeScreens(), childCurrent: ResultScreen(widget.correctNo,widget.wrongNo,widget.getMaxQ)));
+                    Navigator.push(context, PageTransition(type: PageTransitionType.topToBottom, child: HomeScreens(), childCurrent: ResultScreen(widget.correctNo,widget.wrongNo,widget.getMaxQ,widget.getTime)));
 
                     assetsAudioPlayer.open(
                       Audio("assets/audios/click.wav"),
@@ -88,7 +89,7 @@ class _ResultScreenState extends State<ResultScreen> {
                   Countup(
                     begin: 0,
                     end: ((int.parse(widget.correctNo) - int.parse(widget.wrongNo))/int.parse(widget.getMaxQ)) * 100,
-                    duration: Duration(seconds: 2),
+                    duration: Duration(seconds: 1),
                     separator: ',',
                       style: GoogleFonts.akayaTelivigala(textStyle: TextStyle( height: 0.3,fontSize: 126,color: Colors.white70,fontWeight: FontWeight.w900,))
 
@@ -99,7 +100,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 30,),
+            SizedBox(height: 20,),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -114,7 +115,7 @@ class _ResultScreenState extends State<ResultScreen> {
               ],
             ),
 
-            SizedBox(height: 30,),
+            SizedBox(height: 20,),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -129,18 +130,26 @@ class _ResultScreenState extends State<ResultScreen> {
               ],
             ),
 
-            SizedBox(height: 50,),
+            SizedBox(height: 20,),
 
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('00 : 20' ,
-                      style: GoogleFonts.akayaTelivigala(textStyle: TextStyle( height: 0.1,fontSize: 70,color: Colors.white70,fontWeight: FontWeight.w900,))
+            Column(
+              children: [
+                Text("Time taken to complete",
+                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle(fontSize: 18,color: Colors.white70,fontWeight: FontWeight.w800,letterSpacing: 0.5))
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('${widget.getTime}' ,
+                          style: GoogleFonts.akayaTelivigala(textStyle: TextStyle( height: 0.1,fontSize: 70,color: Colors.white70,fontWeight: FontWeight.w900,))
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+
+              ],
             ),
 
             SizedBox(height: 50,),

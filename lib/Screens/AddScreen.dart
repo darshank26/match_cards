@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
@@ -28,12 +29,13 @@ class _AddScreenState extends State<AddScreen> {
   var random_ans = Random();
 
   var n1;
-  var n2;
+   var n2;
   var ans;
   var getQData;
   var _checkCounter = 1;
   var _countCorrect = 0;
   var _countWorng = 0;
+  String? getQMode;
 
   bool _countWrong_0 = false;
   bool _countWrong_1 = false;
@@ -46,15 +48,52 @@ class _AddScreenState extends State<AddScreen> {
   final shakeKey_2 = GlobalKey<ShakeWidgetState>();
   final shakeKey_3 = GlobalKey<ShakeWidgetState>();
 
+  late Timer _timer;
+  int _seconds = 0;
+  bool _timerRunning = false;
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  void startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
+        _seconds++;
+    });
+  }
+
+  void stopTimer() {
+    _timer.cancel();
+    setState(() {
+      _timerRunning = false;
+    });
+  }
+
+  String formatTime(int seconds) {
+    int minutes = seconds ~/ 60;
+    int remainingSeconds = seconds % 60;
+    return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
+  }
+
+
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getQNo();
+    getQMo();
 
-    n1 = random_1.nextInt(99).toString();
-    n2 = random_2.nextInt(99).toString();
+    if (_timerRunning) {
+      stopTimer();
+    } else {
+      startTimer();
+      setState(() {
+        _timerRunning = true;
+      });
+    }
 
     setState(() {
       ans = random_ans.nextInt(4).toString();
@@ -62,6 +101,9 @@ class _AddScreenState extends State<AddScreen> {
 
     print(ans.toString());
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -92,9 +134,14 @@ class _AddScreenState extends State<AddScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Center(
-                  child: Text(n1,
-                      style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 180,color: Colors.white70,fontWeight: FontWeight.w900,))
-                  ),
+                  child:
+                getQMode == 'hard' ?
+                  Text(n1,
+                      style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 120,color: Colors.white70,fontWeight: FontWeight.w900,))
+                  ) :
+                Text(n1,
+                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 180,color: Colors.white70,fontWeight: FontWeight.w900,))
+                ),
                 ),
               ],
             ),
@@ -104,13 +151,24 @@ class _AddScreenState extends State<AddScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Center(
-                child: Text("+",
+                child:
+                getQMode == 'hard' ?
+
+              Text("+",
+              style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 120,color: Colors.white70,fontWeight: FontWeight.w900,))
+          ) :
+                Text("+",
                     style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 150,color: Colors.white70,fontWeight: FontWeight.w900,))
                 ),
               ),
               SizedBox(width: 20,),
               Center(
-                child: Text(n2,
+                child:
+                getQMode == 'hard' ?
+                Text(n2,
+                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 120,color: Colors.white70,fontWeight: FontWeight.w900,))
+                ) :
+                Text(n2,
                     style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 180,color: Colors.white70,fontWeight: FontWeight.w900,))
                 ),
               ),
@@ -161,7 +219,7 @@ class _AddScreenState extends State<AddScreen> {
 
                               if(_checkCounter == int.parse(getQData))
                                 {
-                                  Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString()), childCurrent: AddScreen()));
+                                  Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: AddScreen()));
                                 }
                               else
                                 {
@@ -175,11 +233,16 @@ class _AddScreenState extends State<AddScreen> {
                                 if(_countWrong_0 == false)
                                 {
                                   _countWorng = _countWorng + 1;
-                                  _countWrong_0 = true;
+
+                                    _countWrong_0 = true;
+                                    _countWrong_1 = true;
+                                    _countWrong_2 = true;
+                                    _countWrong_3 = true;
+
 
                                 }
-
                                 shakeKey_0.currentState?.shake();
+
 
                                 assetsAudioPlayer.open(
                                   Audio("assets/audios/wrong.wav"),
@@ -194,15 +257,15 @@ class _AddScreenState extends State<AddScreen> {
                           shakeOffset: 10,
                           child: CircleAvatar(
                             backgroundColor: ksplashback,
+                            maxRadius: 70,
                             child: Align(
                               alignment: Alignment.center,
                               child: ans == "0" ? Text('${(int.parse(n1) + int.parse(n2)).toString()}' ,
                                   style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
-                              ) : Text('${(int.parse(random_1.nextInt(99).toString()) + random_1.nextInt(99)).toString()}' ,
+                              ) : Text('${(int.parse(random_1.nextInt(99).toString())).toString()}' ,
                                   style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
                               ) ,
                             ),
-                            maxRadius: 70,
                           ),
                         ),
                       ),
@@ -223,7 +286,7 @@ class _AddScreenState extends State<AddScreen> {
 
                               if(_checkCounter == int.parse(getQData))
                               {
-                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString()), childCurrent: AddScreen()));
+                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: AddScreen()));
                               }
                               else
                               {
@@ -238,9 +301,10 @@ class _AddScreenState extends State<AddScreen> {
                                 if(_countWrong_1 == false)
                                 {
                                   _countWorng = _countWorng + 1;
+                                  _countWrong_0 = true;
                                   _countWrong_1 = true;
-
-                                }
+                                  _countWrong_2 = true;
+                                  _countWrong_3 = true;                                }
 
                                 shakeKey_1.currentState?.shake();
 
@@ -262,7 +326,7 @@ class _AddScreenState extends State<AddScreen> {
                               alignment: Alignment.center,
                               child: ans == "1" ? Text('${(int.parse(n1) + int.parse(n2)).toString()}' ,
                                   style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
-                              ) : Text('${(int.parse(random_1.nextInt(99).toString()) + random_2.nextInt(99)).toString()}' ,
+                              ) : Text('${(int.parse(random_1.nextInt(99).toString())).toString()}',
                                   style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
                               ) ,
                             ),
@@ -297,7 +361,7 @@ class _AddScreenState extends State<AddScreen> {
 
                               if(_checkCounter == int.parse(getQData))
                               {
-                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString()), childCurrent: AddScreen()));
+                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: AddScreen()));
                               }
                               else
                               {
@@ -312,9 +376,10 @@ class _AddScreenState extends State<AddScreen> {
                                 if(_countWrong_2 == false)
                                 {
                                   _countWorng = _countWorng + 1;
+                                  _countWrong_0 = true;
+                                  _countWrong_1 = true;
                                   _countWrong_2 = true;
-
-                                }
+                                  _countWrong_3 = true;                                }
                                 shakeKey_2.currentState?.shake();
 
                                 assetsAudioPlayer.open(
@@ -334,7 +399,7 @@ class _AddScreenState extends State<AddScreen> {
                               alignment: Alignment.center,
                               child: ans == "2" ? Text('${(int.parse(n1) + int.parse(n2)).toString()}' ,
                                   style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
-                              ) : Text('${( random_1.nextInt(99) + int.parse(random_2.nextInt(99).toString())).toString()}' ,
+                              ) : Text('${(int.parse(random_1.nextInt(99).toString())).toString()}' ,
                                   style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
                               ) ,
                             ),
@@ -360,7 +425,7 @@ class _AddScreenState extends State<AddScreen> {
 
                               if(_checkCounter == int.parse(getQData))
                               {
-                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString()), childCurrent: AddScreen()));
+                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: AddScreen()));
                               }
                               else
                               {
@@ -371,12 +436,13 @@ class _AddScreenState extends State<AddScreen> {
 
                             }else
                               {
-                                if(_countWrong_3 == false)
-                                {
+                                if(_countWrong_3 == false) {
                                   _countWorng = _countWorng + 1;
+                                  _countWrong_0 = true;
+                                  _countWrong_1 = true;
+                                  _countWrong_2 = true;
                                   _countWrong_3 = true;
                                 }
-
                                 shakeKey_3.currentState?.shake();
 
                                 assetsAudioPlayer.open(
@@ -397,7 +463,7 @@ class _AddScreenState extends State<AddScreen> {
                               alignment: Alignment.center,
                               child: ans == "3" ? Text('${(int.parse(n1) + int.parse(n2)).toString()}' ,
                                   style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
-                              ) : Text('${( random_2.nextInt(99) + int.parse(random_2.nextInt(99).toString())).toString()}' ,
+                              ) : Text('${(int.parse(random_1.nextInt(99).toString())).toString()}' ,
                                   style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
                               ) ,
                             ),
@@ -426,15 +492,77 @@ class _AddScreenState extends State<AddScreen> {
 
   }
 
-  void getNewData() {
+  Future<void> getQMo() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      n1 = random_1.nextInt(99).toString();
-      n2 = random_2.nextInt(99).toString();
+      getQMode = prefs.getString('QMode');
+    });
+
+    setState(() {
+      if(getQMode == 'easy')
+      {
+        n1 = random_1.nextInt(9).toString();
+        n2 = random_2.nextInt(9).toString();
+
+      }
+      else if(getQMode == 'medium')
+      {
+        n1 = random_1.nextInt(99).toString();
+        n2 = random_2.nextInt(99).toString();
+
+
+      }
+      else if(getQMode == 'hard')
+      {
+        n1 = random_1.nextInt(999).toString();
+        n2 = random_2.nextInt(999).toString();
+
+
+      }
+
+    });
+
+  }
+
+  void getNewData() {
+
+    setState(() {
+
+
+        if(getQMode == 'easy')
+        {
+          n1 = random_1.nextInt(9).toString();
+          n2 = random_2.nextInt(9).toString();
+
+        }
+        else if(getQMode == 'medium')
+        {
+          n1 = random_1.nextInt(99).toString();
+          n2 = random_2.nextInt(99).toString();
+
+
+        }
+        else if(getQMode == 'hard')
+        {
+          n1 = random_1.nextInt(999).toString();
+          n2 = random_2.nextInt(999).toString();
+
+
+        }
+
+
+      // n1 = random_1.nextInt(99).toString();
+      // n2 = random_2.nextInt(99).toString();
+
+
       ans = random_ans.nextInt(4).toString();
-      // _countWrong_1 = false;
-      // _countWrong_2 = false;
-      // _countWrong_3 = false;
-      // _countWrong_4 = false;
+
+
+
+      _countWrong_0 = false;
+      _countWrong_1 = false;
+      _countWrong_2 = false;
+      _countWrong_3 = false;
 
     });
   }
