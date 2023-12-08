@@ -7,6 +7,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:match_cards/Screens/AddScreen.dart';
 import 'package:match_cards/Screens/SettingScreen.dart';
+import 'package:match_cards/Screens/SubScreen.dart';
 import 'package:match_cards/utils/constants.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,9 +31,18 @@ class _HomeScreensState extends State<HomeScreens> {
   bool _isBannerAdReady = false;
 
 
+  late bool soundMode ;
+
+  late bool getSoundMode;
+
+
   @override
   void initState() {
     super.initState();
+
+    getSMo();
+
+
     _bannerAd = BannerAd(
       adUnitId: AdHelper.bannerAdUnitIdOfHomeScreen,
       request: AdRequest(),
@@ -54,6 +64,28 @@ class _HomeScreensState extends State<HomeScreens> {
 
   }
 
+  Future<void> getSMo() async {
+
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+
+      getSoundMode = prefs.getBool('SMode')!;
+
+      print("------${getSoundMode.toString()}");
+
+      if (getSoundMode!) {
+        soundMode = true;
+      }
+      else {
+        soundMode = false;
+
+      }
+    });
+
+
+  }
 
   @override
   void dispose() {
@@ -82,9 +114,14 @@ class _HomeScreensState extends State<HomeScreens> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    assetsAudioPlayer.open(
-                      Audio("assets/audios/click.wav"),
-                    );
+
+                    if(getSoundMode)
+                      {
+                        assetsAudioPlayer.open(
+                          Audio("assets/audios/click.wav"),
+                        );
+                      }
+
 
                     launchPlay();
 
@@ -98,9 +135,11 @@ class _HomeScreensState extends State<HomeScreens> {
                   onTap: () {
                     Navigator.push(context, PageTransition(type: PageTransitionType.topToBottom, child: SettingScreen(), childCurrent: HomeScreens()));
 
-                    assetsAudioPlayer.open(
-                      Audio("assets/audios/click.wav"),
-                    );
+                    if(getSoundMode) {
+                      assetsAudioPlayer.open(
+                        Audio("assets/audios/click.wav"),
+                      );
+                    }
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -136,9 +175,13 @@ class _HomeScreensState extends State<HomeScreens> {
                     children: [
                       GestureDetector(
                         onTap : () {
-                          assetsAudioPlayer.open(
-                            Audio("assets/audios/homeclick.wav"),
-                          );
+
+                          if(getSoundMode) {
+                            assetsAudioPlayer.open(
+                              Audio("assets/audios/homeclick.wav"),
+                            );
+                          }
+
                           Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: AddScreen(), childCurrent: HomeScreens()));
                           },
                         child: CircleAvatar(
@@ -153,15 +196,30 @@ class _HomeScreensState extends State<HomeScreens> {
         ),
                       ),
 
-                      CircleAvatar(
-                        backgroundColor: ksplashback,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text("-",
-                              style: GoogleFonts.akayaTelivigala(textStyle: TextStyle(fontSize: 100,color: Colors.white70,fontWeight: FontWeight.w800,))
+                      GestureDetector(
+                        onTap: () {
+
+
+                          if(getSoundMode) {
+                            assetsAudioPlayer.open(
+                              Audio("assets/audios/homeclick.wav"),
+                            );
+                          }
+
+                          Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: SubScreen(), childCurrent: HomeScreens()));
+
+
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: ksplashback,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text("-",
+                                style: GoogleFonts.akayaTelivigala(textStyle: TextStyle(fontSize: 100,color: Colors.white70,fontWeight: FontWeight.w800,))
+                            ),
                           ),
+                          maxRadius: 80,
                         ),
-                        maxRadius: 80,
                       ),
                     ],
                   ),

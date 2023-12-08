@@ -16,10 +16,10 @@ const backcolor = Color(0xFFFCFFFC);
 
 
 
-var androidAppShareLink = "https://play.google.com/store/apps/details?id=com.darshankomu.alphabet_flashcards_for_kids";
+var androidAppShareLink = "https://play.google.com/store/apps/details?id=com.darshankomu.match_cards";
 
 var androidShareText = "Download Alphabet Flashcards for Kids app from below link";
 
-var androidAppIdValue = "com.darshankomu.alphabet_flashcards_for_kids";
+var androidAppIdValue = "com.darshankomu.match_cards";
 
 var iOSAppIdValue = "AddiOSAppId";

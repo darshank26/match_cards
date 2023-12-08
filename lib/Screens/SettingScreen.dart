@@ -79,10 +79,14 @@ class _SettingScreenState extends State<SettingScreen> {
                   flex: 1,
                   child: GestureDetector(
                     onTap: () {
+
                       assetsAudioPlayer.open(
                         Audio("assets/audios/click.wav"),
                       );
-                      Navigator.pop(context);
+                      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) =>HomeScreens())).then((_) {
+                        setState(() {});
+                      });
+                      // Navigator.pop(context);
                     },
                     child: Icon(Icons.arrow_back_ios,size: 40,color: Colors.white60,),
                   ),
@@ -930,7 +934,9 @@ class _SettingScreenState extends State<SettingScreen> {
                   assetsAudioPlayer.open(
                     Audio("assets/audios/click.wav"),
                   );
-                  Navigator.pop(context);
+
+                  launchPlay();
+
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -1118,6 +1124,9 @@ class _SettingScreenState extends State<SettingScreen> {
 
     await prefs.setBool('SMode', currentSMode);
 
+    setState(() {
+
+    });
 
   }
 

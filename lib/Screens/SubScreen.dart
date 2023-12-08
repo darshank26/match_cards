@@ -14,14 +14,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/constants.dart';
 import 'HomeScreens.dart';
 
-class AddScreen extends StatefulWidget {
-  const AddScreen({Key? key}) : super(key: key);
+class SubScreen extends StatefulWidget {
+  const SubScreen({Key? key}) : super(key: key);
 
   @override
-  State<AddScreen> createState() => _AddScreenState();
+  State<SubScreen> createState() => _SubScreenState();
 }
 
-class _AddScreenState extends State<AddScreen> {
+class _SubScreenState extends State<SubScreen> {
 
   var random_1 = Random();
   var random_2 = Random();
@@ -29,7 +29,7 @@ class _AddScreenState extends State<AddScreen> {
   var random_ans = Random();
 
   var n1;
-   var n2;
+  var n2;
   var ans;
   var getQData;
   var _checkCounter = 1;
@@ -60,7 +60,7 @@ class _AddScreenState extends State<AddScreen> {
 
   void startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
-        _seconds++;
+      _seconds++;
     });
   }
 
@@ -100,9 +100,6 @@ class _AddScreenState extends State<AddScreen> {
     });
 
     print(ans.toString());
-
-
-
   }
 
 
@@ -138,13 +135,13 @@ class _AddScreenState extends State<AddScreen> {
               children: [
                 Center(
                   child:
-                getQMode == 'hard' ?
+                  getQMode == 'hard' ?
                   Text(n1,
                       style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 120,color: Colors.white70,fontWeight: FontWeight.w900,))
                   ) :
-                Text(n1,
-                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 180,color: Colors.white70,fontWeight: FontWeight.w900,))
-                ),
+                  Text(n1,
+                      style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 180,color: Colors.white70,fontWeight: FontWeight.w900,))
+                  ),
                 ),
               ],
             ),
@@ -157,10 +154,10 @@ class _AddScreenState extends State<AddScreen> {
                 child:
                 getQMode == 'hard' ?
 
-              Text("+",
-              style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 120,color: Colors.white70,fontWeight: FontWeight.w900,))
-          ) :
-                Text("+",
+                Text("-",
+                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 120,color: Colors.white70,fontWeight: FontWeight.w900,))
+                ) :
+                Text("-",
                     style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 150,color: Colors.white70,fontWeight: FontWeight.w900,))
                 ),
               ),
@@ -179,20 +176,20 @@ class _AddScreenState extends State<AddScreen> {
           ),
           SizedBox(height: 100,),
           Center(
-            child: Padding(
-              padding: const EdgeInsets.only(left:20.0,right: 20.0),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white70,
-                    border: Border.all(
+              child: Padding(
+                padding: const EdgeInsets.only(left:20.0,right: 20.0),
+                child: Container(
+                  decoration: BoxDecoration(
                       color: Colors.white70,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(20))
+                      border: Border.all(
+                        color: Colors.white70,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(20))
+                  ),
+                  width: double.infinity,
+                  height: 20,
                 ),
-                width: double.infinity,
-                height: 20,
-              ),
-            )
+              )
           ),
           SizedBox(height: 20,),
           Padding(
@@ -210,47 +207,47 @@ class _AddScreenState extends State<AddScreen> {
                       GestureDetector(
                         onTap : () {
 
-                            if(ans == "0")
+                          if(ans == "0")
+                          {
+                            assetsAudioPlayer.open(
+                              Audio("assets/audios/correct.wav"),
+                            );
+
+                            _countCorrect = _countCorrect + 1;
+                            print(_countCorrect);
+
+
+                            if(_checkCounter == int.parse(getQData))
                             {
-                              assetsAudioPlayer.open(
-                                Audio("assets/audios/correct.wav"),
-                              );
-
-                              _countCorrect = _countCorrect + 1;
-                              print(_countCorrect);
-
-
-                              if(_checkCounter == int.parse(getQData))
-                                {
-                                  Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: AddScreen()));
-                                }
-                              else
-                                {
-                                  getNewData();
-                                  updateCounter();
-                                }
-
+                              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: SubScreen()));
                             }
                             else
-                              {
-                                if(_countWrong_0 == false)
-                                {
-                                  _countWorng = _countWorng + 1;
+                            {
+                              getNewData();
+                              updateCounter();
+                            }
 
-                                    _countWrong_0 = true;
-                                    _countWrong_1 = true;
-                                    _countWrong_2 = true;
-                                    _countWrong_3 = true;
+                          }
+                          else
+                          {
+                            if(_countWrong_0 == false)
+                            {
+                              _countWorng = _countWorng + 1;
+
+                              _countWrong_0 = true;
+                              _countWrong_1 = true;
+                              _countWrong_2 = true;
+                              _countWrong_3 = true;
 
 
-                                }
-                                shakeKey_0.currentState?.shake();
+                            }
+                            shakeKey_0.currentState?.shake();
 
 
-                                assetsAudioPlayer.open(
-                                  Audio("assets/audios/wrong.wav"),
-                                );
-                              }
+                            assetsAudioPlayer.open(
+                              Audio("assets/audios/wrong.wav"),
+                            );
+                          }
 
                         },
                         child: ShakeMe(
@@ -263,17 +260,17 @@ class _AddScreenState extends State<AddScreen> {
                             maxRadius: 70,
                             child: Align(
                               alignment: Alignment.center,
-                              child: ans == "0" ? Text('${(int.parse(n1) + int.parse(n2)).toString()}' ,
+                              child: ans == "0" ? Text('${(int.parse(n1) - int.parse(n2)).toString()}' ,
                                   style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
                               ) :(
                                   (getQMode == 'easy')
-                                  ? Text('${(int.parse(random_1.nextInt(9).toString())).toString()}' ,
+                                      ? Text('${(int.parse(random_1.nextInt(9).toString())).toString()}' ,
                                       style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                          : (
+                                      : (
                                       (getQMode == 'medium')
                                           ? Text('${(int.parse(random_1.nextInt(99).toString())).toString()}' ,
                                           style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                      : Text('${(int.parse(random_1.nextInt(999).toString())).toString()}' ,
+                                          : Text('${(int.parse(random_1.nextInt(999).toString())).toString()}' ,
                                           style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
                                   )),
                             ),
@@ -285,45 +282,45 @@ class _AddScreenState extends State<AddScreen> {
                         onTap : () {
 
 
-                            if(ans == "1")
+                          if(ans == "1")
+                          {
+                            assetsAudioPlayer.open(
+                              Audio("assets/audios/correct.wav"),
+                            );
+
+                            _countCorrect = _countCorrect + 1;
+                            print(_countCorrect);
+
+
+                            if(_checkCounter == int.parse(getQData))
                             {
-                              assetsAudioPlayer.open(
-                                Audio("assets/audios/correct.wav"),
-                              );
-
-                              _countCorrect = _countCorrect + 1;
-                              print(_countCorrect);
-
-
-                              if(_checkCounter == int.parse(getQData))
-                              {
-                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: AddScreen()));
-                              }
-                              else
-                              {
-                                getNewData();
-                                updateCounter();
-                              }
-
-
+                              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: SubScreen()));
                             }
                             else
-                              {
-                                if(_countWrong_1 == false)
-                                {
-                                  _countWorng = _countWorng + 1;
-                                  _countWrong_0 = true;
-                                  _countWrong_1 = true;
-                                  _countWrong_2 = true;
-                                  _countWrong_3 = true;                                }
+                            {
+                              getNewData();
+                              updateCounter();
+                            }
 
-                                shakeKey_1.currentState?.shake();
 
-                                assetsAudioPlayer.open(
-                                  Audio("assets/audios/wrong.wav"),
-                                );
+                          }
+                          else
+                          {
+                            if(_countWrong_1 == false)
+                            {
+                              _countWorng = _countWorng + 1;
+                              _countWrong_0 = true;
+                              _countWrong_1 = true;
+                              _countWrong_2 = true;
+                              _countWrong_3 = true;                                }
 
-                              }
+                            shakeKey_1.currentState?.shake();
+
+                            assetsAudioPlayer.open(
+                              Audio("assets/audios/wrong.wav"),
+                            );
+
+                          }
 
                         },
                         child: ShakeMe(
@@ -335,7 +332,7 @@ class _AddScreenState extends State<AddScreen> {
                             backgroundColor: ksplashback,
                             child: Align(
                               alignment: Alignment.center,
-                              child: ans == "1" ? Text('${(int.parse(n1) + int.parse(n2)).toString()}' ,
+                              child: ans == "1" ? Text('${(int.parse(n1) - int.parse(n2)).toString()}' ,
                                   style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
                               ) :(
                                   (getQMode == 'easy')
@@ -366,48 +363,48 @@ class _AddScreenState extends State<AddScreen> {
                       GestureDetector(
                         onTap : () {
 
-                            if(ans == "2")
+                          if(ans == "2")
+                          {
+                            assetsAudioPlayer.open(
+                              Audio("assets/audios/correct.wav"),
+                            );
+
+                            _countCorrect = _countCorrect + 1;
+
+                            print(_countCorrect);
+
+
+
+                            if(_checkCounter == int.parse(getQData))
                             {
-                              assetsAudioPlayer.open(
-                                Audio("assets/audios/correct.wav"),
-                              );
-
-                              _countCorrect = _countCorrect + 1;
-
-                              print(_countCorrect);
-
-
-
-                              if(_checkCounter == int.parse(getQData))
-                              {
-                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: AddScreen()));
-                              }
-                              else
-                              {
-                                getNewData();
-                                updateCounter();
-                              }
-
+                              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: SubScreen()));
                             }
                             else
-                              {
+                            {
+                              getNewData();
+                              updateCounter();
+                            }
 
-                                if(_countWrong_2 == false)
-                                {
-                                  _countWorng = _countWorng + 1;
-                                  _countWrong_0 = true;
-                                  _countWrong_1 = true;
-                                  _countWrong_2 = true;
-                                  _countWrong_3 = true;                                }
-                                shakeKey_2.currentState?.shake();
+                          }
+                          else
+                          {
 
-                                assetsAudioPlayer.open(
-                                  Audio("assets/audios/wrong.wav"),
-                                );
+                            if(_countWrong_2 == false)
+                            {
+                              _countWorng = _countWorng + 1;
+                              _countWrong_0 = true;
+                              _countWrong_1 = true;
+                              _countWrong_2 = true;
+                              _countWrong_3 = true;                                }
+                            shakeKey_2.currentState?.shake();
 
-                              }
+                            assetsAudioPlayer.open(
+                              Audio("assets/audios/wrong.wav"),
+                            );
 
-                          },
+                          }
+
+                        },
                         child: ShakeMe(
                           key: shakeKey_2,
                           shakeCount: 3,
@@ -416,7 +413,7 @@ class _AddScreenState extends State<AddScreen> {
                             backgroundColor: ksplashback,
                             child: Align(
                               alignment: Alignment.center,
-                              child: ans == "2" ? Text('${(int.parse(n1) + int.parse(n2)).toString()}' ,
+                              child: ans == "2" ? Text('${(int.parse(n1) - int.parse(n2)).toString()}' ,
                                   style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
                               ) :(
                                   (getQMode == 'easy')
@@ -439,44 +436,44 @@ class _AddScreenState extends State<AddScreen> {
                         onTap : () {
 
 
-                            if(ans == "3")
+                          if(ans == "3")
+                          {
+                            assetsAudioPlayer.open(
+                              Audio("assets/audios/correct.wav"),
+                            );
+
+                            _countCorrect = _countCorrect + 1;
+                            print(_countCorrect);
+
+
+
+                            if(_checkCounter == int.parse(getQData))
                             {
-                              assetsAudioPlayer.open(
-                                Audio("assets/audios/correct.wav"),
-                              );
-
-                              _countCorrect = _countCorrect + 1;
-                              print(_countCorrect);
-
-
-
-                              if(_checkCounter == int.parse(getQData))
-                              {
-                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: AddScreen()));
-                              }
-                              else
-                              {
-                                getNewData();
-                                updateCounter();
-                              }
+                              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: SubScreen()));
+                            }
+                            else
+                            {
+                              getNewData();
+                              updateCounter();
+                            }
 
 
-                            }else
-                              {
-                                if(_countWrong_3 == false) {
-                                  _countWorng = _countWorng + 1;
-                                  _countWrong_0 = true;
-                                  _countWrong_1 = true;
-                                  _countWrong_2 = true;
-                                  _countWrong_3 = true;
-                                }
-                                shakeKey_3.currentState?.shake();
+                          }else
+                          {
+                            if(_countWrong_3 == false) {
+                              _countWorng = _countWorng + 1;
+                              _countWrong_0 = true;
+                              _countWrong_1 = true;
+                              _countWrong_2 = true;
+                              _countWrong_3 = true;
+                            }
+                            shakeKey_3.currentState?.shake();
 
-                                assetsAudioPlayer.open(
-                                  Audio("assets/audios/wrong.wav"),
-                                );
+                            assetsAudioPlayer.open(
+                              Audio("assets/audios/wrong.wav"),
+                            );
 
-                              }
+                          }
 
 
                         },
@@ -488,7 +485,7 @@ class _AddScreenState extends State<AddScreen> {
                             backgroundColor: ksplashback,
                             child: Align(
                               alignment: Alignment.center,
-                              child: ans == "3" ? Text('${(int.parse(n1) + int.parse(n2)).toString()}' ,
+                              child: ans == "3" ? Text('${(int.parse(n1) - int.parse(n2)).toString()}' ,
                                   style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
                               ) :(
                                   (getQMode == 'easy')
@@ -564,26 +561,26 @@ class _AddScreenState extends State<AddScreen> {
     setState(() {
 
 
-        if(getQMode == 'easy')
-        {
-          n1 = random_1.nextInt(9).toString();
-          n2 = random_2.nextInt(9).toString();
+      if(getQMode == 'easy')
+      {
+        n1 = random_1.nextInt(9).toString();
+        n2 = random_2.nextInt(9).toString();
 
-        }
-        else if(getQMode == 'medium')
-        {
-          n1 = random_1.nextInt(99).toString();
-          n2 = random_2.nextInt(99).toString();
-
-
-        }
-        else if(getQMode == 'hard')
-        {
-          n1 = random_1.nextInt(999).toString();
-          n2 = random_2.nextInt(999).toString();
+      }
+      else if(getQMode == 'medium')
+      {
+        n1 = random_1.nextInt(99).toString();
+        n2 = random_2.nextInt(99).toString();
 
 
-        }
+      }
+      else if(getQMode == 'hard')
+      {
+        n1 = random_1.nextInt(999).toString();
+        n2 = random_2.nextInt(999).toString();
+
+
+      }
 
 
       // n1 = random_1.nextInt(99).toString();
@@ -605,13 +602,13 @@ class _AddScreenState extends State<AddScreen> {
   void updateCounter() {
     setState(() {
       if(_checkCounter < int.parse(getQData))
-        {
-          _checkCounter = _checkCounter + 1;
-        }
+      {
+        _checkCounter = _checkCounter + 1;
+      }
       else
-        {
-          print("done");
-        }
+      {
+        print("done");
+      }
 
     });
   }
