@@ -1138,6 +1138,11 @@ class _SettingScreenState extends State<SettingScreen> {
 
       getSoundMode = prefs.getBool('SMode');
 
+      if(getSoundMode == null)
+
+      {
+        getSoundMode = true;
+      }
       print("------${getSoundMode.toString()}");
 
       if (getSoundMode!) {
@@ -1155,7 +1160,15 @@ class _SettingScreenState extends State<SettingScreen> {
   Future<void> getQMo() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
+
       getQMode = prefs.getString('QMode');
+
+      if(getQMode == null)
+
+        {
+          getQMode = 'easy';
+        }
+
     });
 
     if (getQMode == 'easy') {

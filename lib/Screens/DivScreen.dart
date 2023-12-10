@@ -15,14 +15,14 @@ import 'package:xrandom/xrandom.dart';
 import '../utils/constants.dart';
 import 'HomeScreens.dart';
 
-class SubScreen extends StatefulWidget {
-  const SubScreen({Key? key}) : super(key: key);
+class DivScreen extends StatefulWidget {
+  const DivScreen({Key? key}) : super(key: key);
 
   @override
-  State<SubScreen> createState() => _SubScreenState();
+  State<DivScreen> createState() => _DivScreenState();
 }
 
-class _SubScreenState extends State<SubScreen> {
+class _DivScreenState extends State<DivScreen> {
 
   var random_1 = Random();
   var random_2 = Random();
@@ -59,10 +59,10 @@ class _SubScreenState extends State<SubScreen> {
   int _seconds = 0;
   bool _timerRunning = false;
 
+
   late bool soundMode ;
 
   late bool getSoundMode;
-
 
   @override
   void dispose() {
@@ -176,10 +176,10 @@ class _SubScreenState extends State<SubScreen> {
                   child:
                   getQMode == 'hard' ?
                   Text(n1,
-                      style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 120,color: Colors.white70,fontWeight: FontWeight.w900,))
+                      style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 90,color: Colors.white70,fontWeight: FontWeight.w900,))
                   ) :
                   Text(n1,
-                      style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 180,color: Colors.white70,fontWeight: FontWeight.w900,))
+                      style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 90,color: Colors.white70,fontWeight: FontWeight.w900,))
                   ),
                 ),
               ],
@@ -193,11 +193,11 @@ class _SubScreenState extends State<SubScreen> {
                 child:
                 getQMode == 'hard' ?
 
-                Text("-",
-                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 120,color: Colors.white70,fontWeight: FontWeight.w900,))
+                Text("\u00F7",
+                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 90,color: Colors.white70,fontWeight: FontWeight.w900,))
                 ) :
-                Text("-",
-                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 150,color: Colors.white70,fontWeight: FontWeight.w900,))
+                Text("\u00F7",
+                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 90,color: Colors.white70,fontWeight: FontWeight.w900,))
                 ),
               ),
               SizedBox(width: 20,),
@@ -205,10 +205,10 @@ class _SubScreenState extends State<SubScreen> {
                 child:
                 getQMode == 'hard' ?
                 Text(n2,
-                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 120,color: Colors.white70,fontWeight: FontWeight.w900,))
+                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 90,color: Colors.white70,fontWeight: FontWeight.w900,))
                 ) :
                 Text(n2,
-                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 180,color: Colors.white70,fontWeight: FontWeight.w900,))
+                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 90,color: Colors.white70,fontWeight: FontWeight.w900,))
                 ),
               ),
             ],
@@ -248,6 +248,7 @@ class _SubScreenState extends State<SubScreen> {
 
                           if(ans == "0")
                           {
+
                           if(getSoundMode) {
                             assetsAudioPlayer.open(
                               Audio("assets/audios/correct.wav"),
@@ -259,7 +260,7 @@ class _SubScreenState extends State<SubScreen> {
 
                             if(_checkCounter == int.parse(getQData))
                             {
-                              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: SubScreen()));
+                              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: DivScreen()));
                             }
                             else
                             {
@@ -268,23 +269,19 @@ class _SubScreenState extends State<SubScreen> {
                             }
 
                           }
-                          else
-                          {
-                            if(_countWrong_0 == false)
-                            {
+                          else {
+                            if (_countWrong_0 == false) {
                               _countWorng = _countWorng + 1;
 
                               _countWrong_0 = true;
                               _countWrong_1 = true;
                               _countWrong_2 = true;
                               _countWrong_3 = true;
-
-
                             }
                             shakeKey_0.currentState?.shake();
 
 
-                            if(getSoundMode) {
+                            if (getSoundMode) {
                               assetsAudioPlayer.open(
                                 Audio("assets/audios/wrong.wav"),
                               );
@@ -302,17 +299,17 @@ class _SubScreenState extends State<SubScreen> {
                             maxRadius: 70,
                             child: Align(
                               alignment: Alignment.center,
-                              child: ans == "0" ? Text('${(int.parse(n1) - int.parse(n2)).toString()}' ,
+                              child: ans == "0" ? Text('${(double.parse(n1) / double.parse(n2)).toStringAsFixed(1)}' ,
                                   style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
                               ) :(
                                   (getQMode == 'easy')
-                                      ? Text('${(int.parse(rand_1)).toString()}' ,
+                                      ? Text('${rand_1}' ,
                                       style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
                                       : (
                                       (getQMode == 'medium')
-                                          ? Text('${(int.parse(rand_1)).toString()}' ,
+                                          ? Text('${rand_1}' ,
                                           style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                          : Text('${(int.parse(rand_1)).toString()}' ,
+                                          : Text('${rand_1}' ,
                                           style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
                                   )),
                             ),
@@ -338,7 +335,7 @@ class _SubScreenState extends State<SubScreen> {
 
                             if(_checkCounter == int.parse(getQData))
                             {
-                              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: SubScreen()));
+                              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: DivScreen()));
                             }
                             else
                             {
@@ -378,17 +375,17 @@ class _SubScreenState extends State<SubScreen> {
                             backgroundColor: ksplashback,
                             child: Align(
                               alignment: Alignment.center,
-                              child: ans == "1" ? Text('${(int.parse(n1) - int.parse(n2)).toString()}' ,
+                              child: ans == "1" ? Text('${(double.parse(n1) / double.parse(n2)).toStringAsFixed(1)}' ,
                                   style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
                               ) :(
                                   (getQMode == 'easy')
-                                      ? Text('${(int.parse(rand_2)).toString()}' ,
+                                      ? Text('${rand_2}' ,
                                       style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
                                       : (
                                       (getQMode == 'medium')
-                                          ? Text('${(int.parse(rand_2)).toString()}' ,
+                                          ? Text('${rand_2}' ,
                                           style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                          : Text('${(int.parse(rand_2).toString())}' ,
+                                          : Text('${rand_2}' ,
                                           style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
                                   )),
                             ),
@@ -425,7 +422,7 @@ class _SubScreenState extends State<SubScreen> {
 
                             if(_checkCounter == int.parse(getQData))
                             {
-                              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: SubScreen()));
+                              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: DivScreen()));
                             }
                             else
                             {
@@ -463,17 +460,17 @@ class _SubScreenState extends State<SubScreen> {
                             backgroundColor: ksplashback,
                             child: Align(
                               alignment: Alignment.center,
-                              child: ans == "2" ? Text('${(int.parse(n1) - int.parse(n2)).toString()}' ,
+                              child: ans == "2" ? Text('${(double.parse(n1) / double.parse(n2)).toStringAsFixed(1)}' ,
                                   style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
                               ) :(
                                   (getQMode == 'easy')
-                                      ? Text('${(int.parse(rand_3)).toString()}' ,
+                                      ? Text('${rand_3}' ,
                                       style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
                                       : (
                                       (getQMode == 'medium')
-                                          ? Text('${(int.parse(rand_3)).toString()}' ,
+                                          ? Text('${rand_3}' ,
                                           style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                          : Text('${(int.parse(rand_3)).toString()}' ,
+                                          : Text('${rand_3}' ,
                                           style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
                                   )),
                             ),
@@ -501,7 +498,7 @@ class _SubScreenState extends State<SubScreen> {
 
                             if(_checkCounter == int.parse(getQData))
                             {
-                              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: SubScreen()));
+                              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: DivScreen()));
                             }
                             else
                             {
@@ -539,17 +536,17 @@ class _SubScreenState extends State<SubScreen> {
                             backgroundColor: ksplashback,
                             child: Align(
                               alignment: Alignment.center,
-                              child: ans == "3" ? Text('${(int.parse(n1) - int.parse(n2)).toString()}' ,
+                              child: ans == "3" ? Text('${(double.parse(n1) / double.parse(n2)).toStringAsFixed(1)}' ,
                                   style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
                               ) :(
                                   (getQMode == 'easy')
-                                      ? Text('${(int.parse(rand_4)).toString()}' ,
+                                      ? Text('${rand_4}' ,
                                       style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
                                       : (
                                       (getQMode == 'medium')
-                                          ? Text('${(int.parse(rand_4)).toString()}' ,
+                                          ? Text('${rand_4}' ,
                                           style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                          : Text('${(int.parse(rand_4).toString())}' ,
+                                          : Text('${rand_4}' ,
                                           style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
                                   )),
                             ),
@@ -589,59 +586,59 @@ class _SubScreenState extends State<SubScreen> {
       {
 
 
-        List<int> _randomValue10 = [0, 1, 2, 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]..shuffle();
+        List<int> _randomValue10 = [1, 2, 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]..shuffle();
 
 
-        n1 = _randomValue10[4].toString();
-        n2 =_randomValue10[5].toString();
+        n1 = _randomValue10[4].toStringAsFixed(1);
+        n2 =_randomValue10[5].toStringAsFixed(1);
 
-        rand_1 = _randomValue10[0].toString();
-        rand_2 = _randomValue10[1].toString();
-        rand_3 = _randomValue10[2].toString();
-        rand_4 = _randomValue10[3].toString();
+        rand_1 = _randomValue10[0].toStringAsFixed(1);
+        rand_2 = _randomValue10[1].toStringAsFixed(1);
+        rand_3 = _randomValue10[2].toStringAsFixed(1);
+        rand_4 = _randomValue10[3].toStringAsFixed(1);
 
         if(
-        (rand_1 == (int.parse(n1) + int.parse(n2)).toString())  ||
-            (rand_2 == (int.parse(n1) + int.parse(n2)).toString())  ||
-            (rand_3 == (int.parse(n1) + int.parse(n2)).toString())  ||
-            (rand_4 == (int.parse(n1) + int.parse(n2)).toString()))
+        (rand_1 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1))  ||
+            (rand_2 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1))  ||
+            (rand_3 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1))  ||
+            (rand_4 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1)))
         {
 
           setState(() {
             List<int> _randomValue10 = [0, 1, 2, 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]..shuffle();
 
-            n1 = _randomValue10[4].toString();
-            n2 =_randomValue10[5].toString();
+            n1 = _randomValue10[4].toStringAsFixed(1);
+            n2 =_randomValue10[5].toStringAsFixed(1);
           });
         }
 
       }
       else if(getQMode == 'medium')
       {
-        List<int> randomValue100 = List<int>.generate(101, (index) => index)
+        List<int> randomValue100 = List<int>.generate(51, (index) => index + 1)
           ..shuffle(Random());
 
-        n1 = randomValue100[4].toString();
-        n2 =randomValue100[5].toString();
+        n1 = randomValue100[4].toStringAsFixed(1);
+        n2 =randomValue100[5].toStringAsFixed(1);
 
-        rand_1 = randomValue100[0].toString();
-        rand_2 = randomValue100[1].toString();
-        rand_3 = randomValue100[2].toString();
-        rand_4 = randomValue100[3].toString();
+        rand_1 = randomValue100[0].toStringAsFixed(1);
+        rand_2 = randomValue100[1].toStringAsFixed(1);
+        rand_3 = randomValue100[2].toStringAsFixed(1);
+        rand_4 = randomValue100[3].toStringAsFixed(1);
 
         if(
-        (rand_1 == (int.parse(n1) + int.parse(n2)).toString())  ||
-            (rand_2 == (int.parse(n1) + int.parse(n2)).toString())  ||
-            (rand_3 == (int.parse(n1) + int.parse(n2)).toString())  ||
-            (rand_4 == (int.parse(n1) + int.parse(n2)).toString()))
+        (rand_1 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1))  ||
+            (rand_2 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1))  ||
+            (rand_3 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1))  ||
+            (rand_4 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1)))
         {
 
           setState(() {
-            List<int> randomValue100 = List<int>.generate(101, (index) => index)
+            List<int> randomValue100 = List<int>.generate(51, (index) => index + 1 )
               ..shuffle(Random());
 
-            n1 = randomValue100[4].toString();
-            n2 =randomValue100[5].toString();
+            n1 = randomValue100[4].toStringAsFixed(1);
+            n2 =randomValue100[5].toStringAsFixed(1);
           });
         }
 
@@ -651,30 +648,30 @@ class _SubScreenState extends State<SubScreen> {
       else if(getQMode == 'hard')
       {
 
-        List<int> randomValue1001 = List<int>.generate(1001, (index) => index)
+        List<int> randomValue1001 = List<int>.generate(101, (index) => index + 1)
           ..shuffle(Random());
 
-        n1 = randomValue1001[4].toString();
-        n2 =randomValue1001[5].toString();
+        n1 = randomValue1001[4].toStringAsFixed(1);
+        n2 =randomValue1001[5].toStringAsFixed(1);
 
-        rand_1 = randomValue1001[0].toString();
-        rand_2 = randomValue1001[1].toString();
-        rand_3 = randomValue1001[2].toString();
-        rand_4 = randomValue1001[3].toString();
+        rand_1 = randomValue1001[0].toStringAsFixed(1);
+        rand_2 = randomValue1001[1].toStringAsFixed(1);
+        rand_3 = randomValue1001[2].toStringAsFixed(1);
+        rand_4 = randomValue1001[3].toStringAsFixed(1);
 
         if(
-        (rand_1 == (int.parse(n1) + int.parse(n2)).toString())  ||
-            (rand_2 == (int.parse(n1) + int.parse(n2)).toString())  ||
-            (rand_3 == (int.parse(n1) + int.parse(n2)).toString())  ||
-            (rand_4 == (int.parse(n1) + int.parse(n2)).toString()))
+        (rand_1 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1))  ||
+            (rand_2 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1))  ||
+            (rand_3 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1))  ||
+            (rand_4 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1)))
         {
 
           setState(() {
-            List<int> randomValue1001 = List<int>.generate(1001, (index) => index)
+            List<int> randomValue1001 = List<int>.generate(101, (index) => index + 1)
               ..shuffle(Random());
 
-            n1 = randomValue1001[4].toString();
-            n2 =randomValue1001[5].toString();
+            n1 = randomValue1001[4].toStringAsFixed(1);
+            n2 =randomValue1001[5].toStringAsFixed(1);
           });
         }
 
@@ -683,6 +680,8 @@ class _SubScreenState extends State<SubScreen> {
 
 
       }
+
+
 
     });
 
@@ -697,61 +696,59 @@ class _SubScreenState extends State<SubScreen> {
       {
 
 
-        List<int> _randomValue10 = [0, 1, 2, 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]..shuffle();
+        List<int> _randomValue10 = [1, 2, 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]..shuffle();
 
 
+        n1 = _randomValue10[4].toStringAsFixed(1);
+        n2 =_randomValue10[5].toStringAsFixed(1);
 
-
-        n1 = _randomValue10[4].toString();
-        n2 =_randomValue10[5].toString();
-
-        rand_1 = _randomValue10[0].toString();
-        rand_2 = _randomValue10[1].toString();
-        rand_3 = _randomValue10[2].toString();
-        rand_4 = _randomValue10[3].toString();
+        rand_1 = _randomValue10[0].toStringAsFixed(1);
+        rand_2 = _randomValue10[1].toStringAsFixed(1);
+        rand_3 = _randomValue10[2].toStringAsFixed(1);
+        rand_4 = _randomValue10[3].toStringAsFixed(1);
 
         if(
-        (rand_1 == (int.parse(n1) - int.parse(n2)).toString())  ||
-            (rand_2 == (int.parse(n1) - int.parse(n2)).toString())  ||
-            (rand_3 == (int.parse(n1) - int.parse(n2)).toString())  ||
-            (rand_4 == (int.parse(n1) - int.parse(n2)).toString()))
+        (rand_1 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1))  ||
+            (rand_2 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1))  ||
+            (rand_3 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1))  ||
+            (rand_4 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1)))
         {
 
           setState(() {
             List<int> _randomValue10 = [0, 1, 2, 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]..shuffle();
 
-            n1 = _randomValue10[4].toString();
-            n2 =_randomValue10[5].toString();
+            n1 = _randomValue10[4].toStringAsFixed(1);
+            n2 =_randomValue10[5].toStringAsFixed(1);
           });
         }
 
       }
       else if(getQMode == 'medium')
       {
-        List<int> randomValue100 = List<int>.generate(101, (index) => index)
+        List<int> randomValue100 = List<int>.generate(51, (index) => index + 1)
           ..shuffle(Random());
 
-        n1 = randomValue100[4].toString();
-        n2 =randomValue100[5].toString();
+        n1 = randomValue100[4].toStringAsFixed(1);
+        n2 =randomValue100[5].toStringAsFixed(1);
 
-        rand_1 = randomValue100[0].toString();
-        rand_2 = randomValue100[1].toString();
-        rand_3 = randomValue100[2].toString();
-        rand_4 = randomValue100[3].toString();
+        rand_1 = randomValue100[0].toStringAsFixed(1);
+        rand_2 = randomValue100[1].toStringAsFixed(1);
+        rand_3 = randomValue100[2].toStringAsFixed(1);
+        rand_4 = randomValue100[3].toStringAsFixed(1);
 
         if(
-        (rand_1 == (int.parse(n1) - int.parse(n2)).toString())  ||
-            (rand_2 == (int.parse(n1) - int.parse(n2)).toString())  ||
-            (rand_3 == (int.parse(n1) - int.parse(n2)).toString())  ||
-            (rand_4 == (int.parse(n1) - int.parse(n2)).toString()))
+        (rand_1 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1))  ||
+            (rand_2 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1))  ||
+            (rand_3 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1))  ||
+            (rand_4 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1)))
         {
 
           setState(() {
-            List<int> randomValue100 = List<int>.generate(101, (index) => index)
+            List<int> randomValue100 = List<int>.generate(51, (index) => index + 1 )
               ..shuffle(Random());
 
-            n1 = randomValue100[4].toString();
-            n2 =randomValue100[5].toString();
+            n1 = randomValue100[4].toStringAsFixed(1);
+            n2 =randomValue100[5].toStringAsFixed(1);
           });
         }
 
@@ -761,30 +758,30 @@ class _SubScreenState extends State<SubScreen> {
       else if(getQMode == 'hard')
       {
 
-        List<int> randomValue1001 = List<int>.generate(1001, (index) => index)
+        List<int> randomValue1001 = List<int>.generate(101, (index) => index + 1)
           ..shuffle(Random());
 
-        n1 = randomValue1001[4].toString();
-        n2 =randomValue1001[5].toString();
+        n1 = randomValue1001[4].toStringAsFixed(1);
+        n2 =randomValue1001[5].toStringAsFixed(1);
 
-        rand_1 = randomValue1001[0].toString();
-        rand_2 = randomValue1001[1].toString();
-        rand_3 = randomValue1001[2].toString();
-        rand_4 = randomValue1001[3].toString();
+        rand_1 = randomValue1001[0].toStringAsFixed(1);
+        rand_2 = randomValue1001[1].toStringAsFixed(1);
+        rand_3 = randomValue1001[2].toStringAsFixed(1);
+        rand_4 = randomValue1001[3].toStringAsFixed(1);
 
         if(
-        (rand_1 == (int.parse(n1) - int.parse(n2)).toString())  ||
-            (rand_2 == (int.parse(n1) - int.parse(n2)).toString())  ||
-            (rand_3 == (int.parse(n1) - int.parse(n2)).toString())  ||
-            (rand_4 == (int.parse(n1) - int.parse(n2)).toString()))
+        (rand_1 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1))  ||
+            (rand_2 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1))  ||
+            (rand_3 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1))  ||
+            (rand_4 == (double.parse(n1) / double.parse(n2)).toStringAsFixed(1)))
         {
 
           setState(() {
-            List<int> randomValue1001 = List<int>.generate(1001, (index) => index)
+            List<int> randomValue1001 = List<int>.generate(101, (index) => index + 1)
               ..shuffle(Random());
 
-            n1 = randomValue1001[4].toString();
-            n2 =randomValue1001[5].toString();
+            n1 = randomValue1001[4].toStringAsFixed(1);
+            n2 =randomValue1001[5].toStringAsFixed(1);
           });
         }
 
@@ -793,6 +790,7 @@ class _SubScreenState extends State<SubScreen> {
 
 
       }
+
 
 
       ans = random_ans.nextInt(4).toString();

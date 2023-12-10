@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:match_cards/Screens/AddScreen.dart';
+import 'package:match_cards/Screens/DivScreen.dart';
+import 'package:match_cards/Screens/MulScreen.dart';
 import 'package:match_cards/Screens/SettingScreen.dart';
 import 'package:match_cards/Screens/SubScreen.dart';
 import 'package:match_cards/utils/constants.dart';
@@ -231,26 +233,52 @@ class _HomeScreensState extends State<HomeScreens> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                        backgroundColor: ksplashback,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text("\u00F7",
-                              style: GoogleFonts.akayaTelivigala(textStyle: TextStyle(fontSize: 100,color: Colors.white70,fontWeight: FontWeight.w800,))
+                      GestureDetector(
+                        onTap : () {
+
+                if(getSoundMode) {
+                assetsAudioPlayer.open(
+                Audio("assets/audios/homeclick.wav"),
+                );
+                }
+
+                Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: DivScreen(), childCurrent: HomeScreens()));
+
+                },
+                        child: CircleAvatar(
+                          backgroundColor: ksplashback,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text("\u00F7",
+                                style: GoogleFonts.akayaTelivigala(textStyle: TextStyle(fontSize: 100,color: Colors.white70,fontWeight: FontWeight.w800,))
+                            ),
                           ),
+                          maxRadius: 80,
                         ),
-                        maxRadius: 80,
                       ),
 
-                      CircleAvatar(
-                        backgroundColor: ksplashback,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text("X",
-                              style: GoogleFonts.akayaTelivigala(textStyle: TextStyle(fontSize: 80,color: Colors.white70,fontWeight: FontWeight.w800,))
+                      GestureDetector(
+                        onTap: () {
+                          if(getSoundMode) {
+                            assetsAudioPlayer.open(
+                              Audio("assets/audios/homeclick.wav"),
+                            );
+                          }
+
+                          Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: MulScreen(), childCurrent: HomeScreens()));
+
+
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: ksplashback,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text("X",
+                                style: GoogleFonts.akayaTelivigala(textStyle: TextStyle(fontSize: 80,color: Colors.white70,fontWeight: FontWeight.w800,))
+                            ),
                           ),
+                          maxRadius: 80,
                         ),
-                        maxRadius: 80,
                       ),
                     ],
                   ),

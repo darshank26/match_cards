@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:match_cards/Screens/ResultScreen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:xrandom/xrandom.dart';
 
 import '../utils/constants.dart';
 import 'HomeScreens.dart';
@@ -25,11 +26,17 @@ class _AddScreenState extends State<AddScreen> {
 
   var random_1 = Random();
   var random_2 = Random();
+  final xrandom_1 = Xrandom();
 
   var random_ans = Random();
 
   var n1;
    var n2;
+   var rand_1;
+  var rand_2;
+  var rand_3;
+  var rand_4;
+
   var ans;
   var getQData;
   var _checkCounter = 1;
@@ -51,6 +58,11 @@ class _AddScreenState extends State<AddScreen> {
   late Timer _timer;
   int _seconds = 0;
   bool _timerRunning = false;
+
+
+  late bool soundMode ;
+
+  late bool getSoundMode;
 
   @override
   void dispose() {
@@ -85,6 +97,7 @@ class _AddScreenState extends State<AddScreen> {
     super.initState();
     getQNo();
     getQMo();
+    getSMo();
 
     if (_timerRunning) {
       stopTimer();
@@ -105,6 +118,29 @@ class _AddScreenState extends State<AddScreen> {
 
   }
 
+
+  Future<void> getSMo() async {
+
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+
+      getSoundMode = prefs.getBool('SMode')!;
+
+      print("------${getSoundMode.toString()}");
+
+      if (getSoundMode!) {
+        soundMode = true;
+      }
+      else {
+        soundMode = false;
+
+      }
+    });
+
+
+  }
 
 
 
@@ -212,10 +248,12 @@ class _AddScreenState extends State<AddScreen> {
 
                             if(ans == "0")
                             {
+
+                            if(getSoundMode) {
                               assetsAudioPlayer.open(
                                 Audio("assets/audios/correct.wav"),
                               );
-
+                            }
                               _countCorrect = _countCorrect + 1;
                               print(_countCorrect);
 
@@ -246,10 +284,11 @@ class _AddScreenState extends State<AddScreen> {
                                 }
                                 shakeKey_0.currentState?.shake();
 
-
-                                assetsAudioPlayer.open(
-                                  Audio("assets/audios/wrong.wav"),
-                                );
+                                if(getSoundMode) {
+                                  assetsAudioPlayer.open(
+                                    Audio("assets/audios/wrong.wav"),
+                                  );
+                                }
                               }
 
                         },
@@ -267,13 +306,13 @@ class _AddScreenState extends State<AddScreen> {
                                   style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
                               ) :(
                                   (getQMode == 'easy')
-                                  ? Text('${(int.parse(random_1.nextInt(9).toString())).toString()}' ,
+                                  ? Text('${(int.parse(rand_1)).toString()}' ,
                                       style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
                                           : (
                                       (getQMode == 'medium')
-                                          ? Text('${(int.parse(random_1.nextInt(99).toString())).toString()}' ,
+                                          ? Text('${(int.parse(rand_1)).toString()}' ,
                                           style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                      : Text('${(int.parse(random_1.nextInt(999).toString())).toString()}' ,
+                                      : Text('${(int.parse(rand_1)).toString()}' ,
                                           style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
                                   )),
                             ),
@@ -287,9 +326,12 @@ class _AddScreenState extends State<AddScreen> {
 
                             if(ans == "1")
                             {
-                              assetsAudioPlayer.open(
-                                Audio("assets/audios/correct.wav"),
-                              );
+
+                              if(getSoundMode) {
+                                assetsAudioPlayer.open(
+                                  Audio("assets/audios/correct.wav"),
+                                );
+                              }
 
                               _countCorrect = _countCorrect + 1;
                               print(_countCorrect);
@@ -319,10 +361,11 @@ class _AddScreenState extends State<AddScreen> {
 
                                 shakeKey_1.currentState?.shake();
 
-                                assetsAudioPlayer.open(
-                                  Audio("assets/audios/wrong.wav"),
-                                );
-
+                                if(getSoundMode) {
+                                  assetsAudioPlayer.open(
+                                    Audio("assets/audios/wrong.wav"),
+                                  );
+                                }
                               }
 
                         },
@@ -339,13 +382,13 @@ class _AddScreenState extends State<AddScreen> {
                                   style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
                               ) :(
                                   (getQMode == 'easy')
-                                      ? Text('${(int.parse(random_1.nextInt(9).toString())).toString()}' ,
+                                      ? Text('${(int.parse(rand_2)).toString()}' ,
                                       style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
                                       : (
                                       (getQMode == 'medium')
-                                          ? Text('${(int.parse(random_1.nextInt(99).toString())).toString()}' ,
+                                          ? Text('${(int.parse(rand_2)).toString()}' ,
                                           style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                          : Text('${(int.parse(random_1.nextInt(999).toString())).toString()}' ,
+                                          : Text('${(int.parse(rand_2).toString())}' ,
                                           style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
                                   )),
                             ),
@@ -368,9 +411,11 @@ class _AddScreenState extends State<AddScreen> {
 
                             if(ans == "2")
                             {
+                            if(getSoundMode) {
                               assetsAudioPlayer.open(
                                 Audio("assets/audios/correct.wav"),
                               );
+                            }
 
                               _countCorrect = _countCorrect + 1;
 
@@ -400,10 +445,11 @@ class _AddScreenState extends State<AddScreen> {
                                   _countWrong_2 = true;
                                   _countWrong_3 = true;                                }
                                 shakeKey_2.currentState?.shake();
-
-                                assetsAudioPlayer.open(
-                                  Audio("assets/audios/wrong.wav"),
-                                );
+                                if(getSoundMode) {
+                                  assetsAudioPlayer.open(
+                                    Audio("assets/audios/wrong.wav"),
+                                  );
+                                }
 
                               }
 
@@ -420,13 +466,13 @@ class _AddScreenState extends State<AddScreen> {
                                   style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
                               ) :(
                                   (getQMode == 'easy')
-                                      ? Text('${(int.parse(random_1.nextInt(9).toString())).toString()}' ,
+                                      ? Text('${(int.parse(rand_3)).toString()}' ,
                                       style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
                                       : (
                                       (getQMode == 'medium')
-                                          ? Text('${(int.parse(random_1.nextInt(99).toString())).toString()}' ,
+                                          ? Text('${(int.parse(rand_3)).toString()}' ,
                                           style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                          : Text('${(int.parse(random_1.nextInt(999).toString())).toString()}' ,
+                                          : Text('${(int.parse(rand_3)).toString()}' ,
                                           style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
                                   )),
                             ),
@@ -441,9 +487,11 @@ class _AddScreenState extends State<AddScreen> {
 
                             if(ans == "3")
                             {
-                              assetsAudioPlayer.open(
-                                Audio("assets/audios/correct.wav"),
-                              );
+                              if(getSoundMode) {
+                                assetsAudioPlayer.open(
+                                  Audio("assets/audios/correct.wav"),
+                                );
+                              }
 
                               _countCorrect = _countCorrect + 1;
                               print(_countCorrect);
@@ -472,9 +520,11 @@ class _AddScreenState extends State<AddScreen> {
                                 }
                                 shakeKey_3.currentState?.shake();
 
-                                assetsAudioPlayer.open(
-                                  Audio("assets/audios/wrong.wav"),
-                                );
+                                if(getSoundMode) {
+                                  assetsAudioPlayer.open(
+                                    Audio("assets/audios/wrong.wav"),
+                                  );
+                                }
 
                               }
 
@@ -492,13 +542,13 @@ class _AddScreenState extends State<AddScreen> {
                                   style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
                               ) :(
                                   (getQMode == 'easy')
-                                      ? Text('${(int.parse(random_1.nextInt(9).toString())).toString()}' ,
+                                      ? Text('${(int.parse(rand_4)).toString()}' ,
                                       style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
                                       : (
                                       (getQMode == 'medium')
-                                          ? Text('${(int.parse(random_1.nextInt(99).toString())).toString()}' ,
+                                          ? Text('${(int.parse(rand_4)).toString()}' ,
                                           style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                          : Text('${(int.parse(random_1.nextInt(999).toString())).toString()}' ,
+                                          : Text('${(int.parse(rand_4).toString())}' ,
                                           style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
                                   )),
                             ),
@@ -536,21 +586,99 @@ class _AddScreenState extends State<AddScreen> {
     setState(() {
       if(getQMode == 'easy')
       {
-        n1 = random_1.nextInt(9).toString();
-        n2 = random_2.nextInt(9).toString();
+
+
+        List<int> _randomValue10 = [0, 1, 2, 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]..shuffle();
+
+
+        n1 = _randomValue10[4].toString();
+        n2 =_randomValue10[5].toString();
+
+        rand_1 = _randomValue10[0].toString();
+        rand_2 = _randomValue10[1].toString();
+        rand_3 = _randomValue10[2].toString();
+        rand_4 = _randomValue10[3].toString();
+
+        if(
+        (rand_1 == (int.parse(n1) + int.parse(n2)).toString())  ||
+            (rand_2 == (int.parse(n1) + int.parse(n2)).toString())  ||
+            (rand_3 == (int.parse(n1) + int.parse(n2)).toString())  ||
+            (rand_4 == (int.parse(n1) + int.parse(n2)).toString()))
+        {
+
+          setState(() {
+            List<int> _randomValue10 = [0, 1, 2, 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]..shuffle();
+
+            n1 = _randomValue10[4].toString();
+            n2 =_randomValue10[5].toString();
+          });
+        }
 
       }
       else if(getQMode == 'medium')
       {
-        n1 = random_1.nextInt(99).toString();
-        n2 = random_2.nextInt(99).toString();
+        List<int> randomValue100 = List<int>.generate(101, (index) => index)
+          ..shuffle(Random());
+
+        n1 = randomValue100[4].toString();
+        n2 =randomValue100[5].toString();
+
+        rand_1 = randomValue100[0].toString();
+        rand_2 = randomValue100[1].toString();
+        rand_3 = randomValue100[2].toString();
+        rand_4 = randomValue100[3].toString();
+
+        if(
+        (rand_1 == (int.parse(n1) + int.parse(n2)).toString())  ||
+            (rand_2 == (int.parse(n1) + int.parse(n2)).toString())  ||
+            (rand_3 == (int.parse(n1) + int.parse(n2)).toString())  ||
+            (rand_4 == (int.parse(n1) + int.parse(n2)).toString()))
+        {
+
+          setState(() {
+            List<int> randomValue100 = List<int>.generate(101, (index) => index)
+              ..shuffle(Random());
+
+            n1 = randomValue100[4].toString();
+            n2 =randomValue100[5].toString();
+          });
+        }
+
 
 
       }
       else if(getQMode == 'hard')
       {
-        n1 = random_1.nextInt(999).toString();
-        n2 = random_2.nextInt(999).toString();
+
+        List<int> randomValue1001 = List<int>.generate(1001, (index) => index)
+          ..shuffle(Random());
+
+        n1 = randomValue1001[4].toString();
+        n2 =randomValue1001[5].toString();
+
+        rand_1 = randomValue1001[0].toString();
+        rand_2 = randomValue1001[1].toString();
+        rand_3 = randomValue1001[2].toString();
+        rand_4 = randomValue1001[3].toString();
+
+        if(
+        (rand_1 == (int.parse(n1) + int.parse(n2)).toString())  ||
+            (rand_2 == (int.parse(n1) + int.parse(n2)).toString())  ||
+            (rand_3 == (int.parse(n1) + int.parse(n2)).toString())  ||
+            (rand_4 == (int.parse(n1) + int.parse(n2)).toString()))
+        {
+
+          setState(() {
+            List<int> randomValue1001 = List<int>.generate(1001, (index) => index)
+              ..shuffle(Random());
+
+            n1 = randomValue1001[4].toString();
+            n2 =randomValue1001[5].toString();
+          });
+        }
+
+
+
 
 
       }
@@ -566,28 +694,104 @@ class _AddScreenState extends State<AddScreen> {
 
         if(getQMode == 'easy')
         {
-          n1 = random_1.nextInt(9).toString();
-          n2 = random_2.nextInt(9).toString();
+
+
+           List<int> _randomValue10 = [0, 1, 2, 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]..shuffle();
+
+
+
+
+           n1 = _randomValue10[4].toString();
+           n2 =_randomValue10[5].toString();
+
+           rand_1 = _randomValue10[0].toString();
+           rand_2 = _randomValue10[1].toString();
+           rand_3 = _randomValue10[2].toString();
+           rand_4 = _randomValue10[3].toString();
+
+           if(
+               (rand_1 == (int.parse(n1) + int.parse(n2)).toString())  ||
+               (rand_2 == (int.parse(n1) + int.parse(n2)).toString())  ||
+               (rand_3 == (int.parse(n1) + int.parse(n2)).toString())  ||
+               (rand_4 == (int.parse(n1) + int.parse(n2)).toString()))
+             {
+
+               setState(() {
+                 List<int> _randomValue10 = [0, 1, 2, 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]..shuffle();
+
+                 n1 = _randomValue10[4].toString();
+                 n2 =_randomValue10[5].toString();
+               });
+             }
 
         }
         else if(getQMode == 'medium')
         {
-          n1 = random_1.nextInt(99).toString();
-          n2 = random_2.nextInt(99).toString();
+          List<int> randomValue100 = List<int>.generate(101, (index) => index)
+            ..shuffle(Random());
+
+          n1 = randomValue100[4].toString();
+          n2 =randomValue100[5].toString();
+
+          rand_1 = randomValue100[0].toString();
+          rand_2 = randomValue100[1].toString();
+          rand_3 = randomValue100[2].toString();
+          rand_4 = randomValue100[3].toString();
+
+          if(
+          (rand_1 == (int.parse(n1) + int.parse(n2)).toString())  ||
+              (rand_2 == (int.parse(n1) + int.parse(n2)).toString())  ||
+              (rand_3 == (int.parse(n1) + int.parse(n2)).toString())  ||
+              (rand_4 == (int.parse(n1) + int.parse(n2)).toString()))
+          {
+
+            setState(() {
+              List<int> randomValue100 = List<int>.generate(101, (index) => index)
+                ..shuffle(Random());
+
+              n1 = randomValue100[4].toString();
+              n2 =randomValue100[5].toString();
+            });
+          }
+
 
 
         }
         else if(getQMode == 'hard')
         {
-          n1 = random_1.nextInt(999).toString();
-          n2 = random_2.nextInt(999).toString();
+
+          List<int> randomValue1001 = List<int>.generate(1001, (index) => index)
+            ..shuffle(Random());
+
+          n1 = randomValue1001[4].toString();
+          n2 =randomValue1001[5].toString();
+
+          rand_1 = randomValue1001[0].toString();
+          rand_2 = randomValue1001[1].toString();
+          rand_3 = randomValue1001[2].toString();
+          rand_4 = randomValue1001[3].toString();
+
+          if(
+          (rand_1 == (int.parse(n1) + int.parse(n2)).toString())  ||
+              (rand_2 == (int.parse(n1) + int.parse(n2)).toString())  ||
+              (rand_3 == (int.parse(n1) + int.parse(n2)).toString())  ||
+              (rand_4 == (int.parse(n1) + int.parse(n2)).toString()))
+          {
+
+            setState(() {
+              List<int> randomValue1001 = List<int>.generate(1001, (index) => index)
+                ..shuffle(Random());
+
+              n1 = randomValue1001[4].toString();
+              n2 =randomValue1001[5].toString();
+            });
+          }
+
+
+
 
 
         }
-
-
-      // n1 = random_1.nextInt(99).toString();
-      // n2 = random_2.nextInt(99).toString();
 
 
       ans = random_ans.nextInt(4).toString();
