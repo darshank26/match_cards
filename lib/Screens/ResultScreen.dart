@@ -8,6 +8,7 @@ import 'package:launch_review/launch_review.dart';
 import 'package:match_cards/Screens/HomeScreens.dart';
 import 'package:match_cards/utils/constants.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ResultScreen extends StatefulWidget {
   final String correctNo;
@@ -27,6 +28,40 @@ class _ResultScreenState extends State<ResultScreen> {
 
   final assetsAudioPlayer = AssetsAudioPlayer();
 
+  late bool soundMode ;
+
+  late bool getSoundMode;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getSMo();
+
+  }
+
+  Future<void> getSMo() async {
+
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+
+      getSoundMode = prefs.getBool('SMode')!;
+
+      print("------${getSoundMode.toString()}");
+
+      if (getSoundMode!) {
+        soundMode = true;
+      }
+      else {
+        soundMode = false;
+
+      }
+    });
+
+
+  }
 
 
   @override
@@ -51,9 +86,16 @@ class _ResultScreenState extends State<ResultScreen> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    assetsAudioPlayer.open(
-                      Audio("assets/audios/click.wav"),
-                    );
+
+
+                    if(getSoundMode)
+                      {
+                        assetsAudioPlayer.open(
+                          Audio("assets/audios/click.wav"),
+                        );
+
+                      }
+
                     Navigator.pop(context);
 
                   },
@@ -66,9 +108,14 @@ class _ResultScreenState extends State<ResultScreen> {
                   onTap: () {
                     Navigator.push(context, PageTransition(type: PageTransitionType.topToBottom, child: HomeScreens(), childCurrent: ResultScreen(widget.correctNo,widget.wrongNo,widget.getMaxQ,widget.getTime)));
 
-                    assetsAudioPlayer.open(
-                      Audio("assets/audios/click.wav"),
-                    );
+                    if(getSoundMode)
+                    {
+                      assetsAudioPlayer.open(
+                        Audio("assets/audios/click.wav"),
+                      );
+
+                    }
+
                     launchPlay();
                   },
                   child: Padding(
@@ -158,10 +205,15 @@ class _ResultScreenState extends State<ResultScreen> {
               padding: const EdgeInsets.only(left:20.0,right: 20.0),
               child: GestureDetector(
                 onTap: () {
-                  assetsAudioPlayer.open(
-                    Audio("assets/audios/click.wav"),
-                  );
-                  Navigator.pop(context);
+
+                  if(getSoundMode)
+                  {
+                    assetsAudioPlayer.open(
+                      Audio("assets/audios/click.wav"),
+                    );
+
+                  }
+
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -196,10 +248,16 @@ class _ResultScreenState extends State<ResultScreen> {
               padding: const EdgeInsets.only(left:20.0,right: 20.0),
               child: GestureDetector(
                 onTap: () {
-                  assetsAudioPlayer.open(
-                    Audio("assets/audios/click.wav"),
-                  );
-                  Navigator.pop(context);
+
+                  if(getSoundMode)
+                  {
+                    assetsAudioPlayer.open(
+                      Audio("assets/audios/click.wav"),
+                    );
+
+                  }
+
+                  launchPlay();
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -234,10 +292,19 @@ class _ResultScreenState extends State<ResultScreen> {
               padding: const EdgeInsets.only(left:20.0,right: 20.0),
               child: GestureDetector(
                 onTap: () {
-                  assetsAudioPlayer.open(
-                    Audio("assets/audios/click.wav"),
-                  );
+
+
+
+                  if(getSoundMode)
+                  {
+                    assetsAudioPlayer.open(
+                      Audio("assets/audios/click.wav"),
+                    );
+
+                  }
                   Navigator.pop(context);
+
+
                 },
                 child: Container(
                   decoration: BoxDecoration(
