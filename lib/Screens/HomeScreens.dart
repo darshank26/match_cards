@@ -35,7 +35,7 @@ class _HomeScreensState extends State<HomeScreens> {
 
   late bool soundMode ;
 
-  late bool getSoundMode;
+    bool getSoundMode = true ;
 
 
   @override
@@ -68,14 +68,16 @@ class _HomeScreensState extends State<HomeScreens> {
 
   Future<void> getSMo() async {
 
-
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     setState(() {
 
+
       getSoundMode = prefs.getBool('SMode')!;
 
       print("------${getSoundMode.toString()}");
+
+
 
       if (getSoundMode!) {
         soundMode = true;

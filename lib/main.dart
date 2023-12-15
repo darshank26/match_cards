@@ -220,44 +220,23 @@ class _SplashScreenState extends State<IntroSplashScreen> {
       debugShowCheckedModeBanner: false,
       title: 'Math Cards',
       home: Scaffold(
-        backgroundColor: ksplashback,
-        body: Container(
-          child: Stack(
-            children: [
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset('assets/images/splashback.png',
-                      alignment: Alignment.center,),
-                    // Text(
-                    //     "Human Body Parts For Kids",
-                    //     textAlign: TextAlign.center,
-                    //     style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 35,color: Colors.white,fontWeight: FontWeight.w600,letterSpacing: 0.5))
-                    //
-                    // ),
-                  ],
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                        "Designed & Developed By - Darshan Komu",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 16,color: Colors.black87,fontWeight: FontWeight.w600,))
-
-                    ),
-                  ),
-                ),
-              ),
-
-            ],
+        backgroundColor: ksplashback2,
+        body: Center(
+          child: Container(
+            child: Image.asset('assets/images/splashback.png',
+              alignment: Alignment.center,),
           ),
         ),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+              "Designed & Developed By - Darshan Komu",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 16,color: Colors.black87,fontWeight: FontWeight.w600,))
+
+          ),
+        ),
+
 
       ),
 

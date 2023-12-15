@@ -2,6 +2,7 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:launch_review/launch_review.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:match_cards/Screens/HomeScreens.dart';
 import 'package:page_transition/page_transition.dart';
@@ -336,206 +337,274 @@ class _SettingScreenState extends State<SettingScreen> {
                       children: [
                         GestureDetector(
                           onTap : () {
-                            currentNoQ = '30';
+                            buyPaidApp();
+                  //
+                  //           currentNoQ = '30';
+                  //
+                  //           saveNoQ(currentNoQ);
+                  //
+                  //           if(getSoundMode!) {
+                  //   assetsAudioPlayer.open(
+                  //     Audio("assets/audios/click.wav"),
+                  //   );
+                  // }
+                  //           setState(() {
+                  //             if(check_30) {
+                  //               check_30 = false;
+                  //               check_10 = true;
+                  //               check_15 = true;
+                  //               check_20 = true;
+                  //               check_25 = true;
+                  //               check_5 = true;
+                  //               check_35 = true;
+                  //               check_40 = true;
+                  //               check_45 = true;
+                  //               check_50 = true;
+                  //             }
+                  //             else
+                  //             {
+                  //               check_30 = true;
+                  //             }
+                  //           });
 
-                            saveNoQ(currentNoQ);
-
-                            if(getSoundMode!) {
-                    assetsAudioPlayer.open(
-                      Audio("assets/audios/click.wav"),
-                    );
-                  }
-                            setState(() {
-                              if(check_30) {
-                                check_30 = false;
-                                check_10 = true;
-                                check_15 = true;
-                                check_20 = true;
-                                check_25 = true;
-                                check_5 = true;
-                                check_35 = true;
-                                check_40 = true;
-                                check_45 = true;
-                                check_50 = true;
-                              }
-                              else
-                              {
-                                check_30 = true;
-                              }
-                            });
 
                           },
-                          child: CircleAvatar(
-                            backgroundColor: check_30 ? ksplashback.withOpacity(0.4) : ksplashback,
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text("30",
-                                  style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle(fontSize: 30,color: Colors.white70,fontWeight: FontWeight.w800,))
+                          child: Stack(
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: check_30 ? ksplashback.withOpacity(0.4) : ksplashback,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text("30",
+                                      style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle(fontSize: 30,color: Colors.white70,fontWeight: FontWeight.w800,))
+                                  ),
+                                ),
+                                maxRadius: 30,
                               ),
-                            ),
-                            maxRadius: 30,
+                              Positioned.fill(
+
+                                  child: Align(
+                                      alignment: Alignment.topRight,
+                                      child: Icon(Icons.lock,color: Colors.white70,size: 22,)))
+
+                            ],
                           ),
                         ),
                         GestureDetector(
                           onTap : () {
-                            currentNoQ = '35';
 
-                            saveNoQ(currentNoQ);
-                            if(getSoundMode!) {
-                              assetsAudioPlayer.open(
-                                Audio("assets/audios/click.wav"),
-                              );
-                            }
+                            buyPaidApp();
 
-                            setState(() {
-                              if(check_35) {
-                                check_35 = false;
-                                check_10 = true;
-                                check_15 = true;
-                                check_20 = true;
-                                check_25 = true;
-                                check_30 = true;
-                                check_5 = true;
-                                check_40 = true;
-                                check_45 = true;
-                                check_50 = true;
-                              }
-                              else
-                              {
-                                check_35 = true;
-                              }
-                            });
+                            // currentNoQ = '35';
+                            //
+                            // saveNoQ(currentNoQ);
+                            // if(getSoundMode!) {
+                            //   assetsAudioPlayer.open(
+                            //     Audio("assets/audios/click.wav"),
+                            //   );
+                            // }
+                            //
+                            // setState(() {
+                            //   if(check_35) {
+                            //     check_35 = false;
+                            //     check_10 = true;
+                            //     check_15 = true;
+                            //     check_20 = true;
+                            //     check_25 = true;
+                            //     check_30 = true;
+                            //     check_5 = true;
+                            //     check_40 = true;
+                            //     check_45 = true;
+                            //     check_50 = true;
+                            //   }
+                            //   else
+                            //   {
+                            //     check_35 = true;
+                            //   }
+                            // });
+
                           },
-                          child: CircleAvatar(
-                            backgroundColor: check_35 ? ksplashback.withOpacity(0.4) : ksplashback,
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text("35",
-                                  style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle(fontSize: 30,color: Colors.white70,fontWeight: FontWeight.w800,))
+                          child: Stack(
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: check_35 ? ksplashback.withOpacity(0.4) : ksplashback,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text("35",
+                                      style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle(fontSize: 30,color: Colors.white70,fontWeight: FontWeight.w800,))
+                                  ),
+                                ),
+                                maxRadius: 30,
                               ),
-                            ),
-                            maxRadius: 30,
+                              Positioned.fill(
+
+                                  child: Align(
+                                      alignment: Alignment.topRight,
+                                      child: Icon(Icons.lock,color: Colors.white70,size: 22,)))
+
+                            ],
                           ),
                         ),
                         GestureDetector(
                           onTap : () {
-                            currentNoQ = '40';
 
-                            saveNoQ(currentNoQ);
-                            if(getSoundMode!) {
-                              assetsAudioPlayer.open(
-                                Audio("assets/audios/click.wav"),
-                              );
-                            }
-                            setState(() {
-                              if(check_40) {
-                                check_40 = false;
-                                check_10 = true;
-                                check_15 = true;
-                                check_20 = true;
-                                check_25 = true;
-                                check_30 = true;
-                                check_35 = true;
-                                check_5 = true;
-                                check_45 = true;
-                                check_50 = true;
-                              }
-                              else
-                              {
-                                check_40 = true;
-                              }
-                            });
+                            buyPaidApp();
+                            // currentNoQ = '40';
+                            //
+                            // saveNoQ(currentNoQ);
+                            // if(getSoundMode!) {
+                            //   assetsAudioPlayer.open(
+                            //     Audio("assets/audios/click.wav"),
+                            //   );
+                            // }
+                            // setState(() {
+                            //   if(check_40) {
+                            //     check_40 = false;
+                            //     check_10 = true;
+                            //     check_15 = true;
+                            //     check_20 = true;
+                            //     check_25 = true;
+                            //     check_30 = true;
+                            //     check_35 = true;
+                            //     check_5 = true;
+                            //     check_45 = true;
+                            //     check_50 = true;
+                            //   }
+                            //   else
+                            //   {
+                            //     check_40 = true;
+                            //   }
+                            // });
+
                           },
-                          child: CircleAvatar(
-                            backgroundColor: check_40 ? ksplashback.withOpacity(0.4) : ksplashback,
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text("40",
-                                  style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle(fontSize: 30,color: Colors.white70,fontWeight: FontWeight.w800,))
+                          child: Stack(
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: check_40 ? ksplashback.withOpacity(0.4) : ksplashback,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text("40",
+                                      style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle(fontSize: 30,color: Colors.white70,fontWeight: FontWeight.w800,))
+                                  ),
+                                ),
+                                maxRadius: 30,
                               ),
-                            ),
-                            maxRadius: 30,
+                              Positioned.fill(
+
+                                  child: Align(
+                                      alignment: Alignment.topRight,
+                                      child: Icon(Icons.lock,color: Colors.white70,size: 22,)))
+
+                            ],
                           ),
                         ),
                         GestureDetector(
                           onTap : () {
-                            currentNoQ = '45';
+                            buyPaidApp();
 
-                            saveNoQ(currentNoQ);
-                            if(getSoundMode!) {
-                              assetsAudioPlayer.open(
-                                Audio("assets/audios/click.wav"),
-                              );
-                            }
-                            setState(() {
-                              if(check_45) {
-                                check_45 = false;
-                                check_10 = true;
-                                check_15 = true;
-                                check_20 = true;
-                                check_25 = true;
-                                check_30 = true;
-                                check_35 = true;
-                                check_40 = true;
-                                check_5 = true;
-                                check_50 = true;
-                              }
-                              else
-                              {
-                                check_45 = true;
-                              }
-                            });
+                            // currentNoQ = '45';
+                            //
+                            // saveNoQ(currentNoQ);
+                            // if(getSoundMode!) {
+                            //   assetsAudioPlayer.open(
+                            //     Audio("assets/audios/click.wav"),
+                            //   );
+                            // }
+                            // setState(() {
+                            //   if(check_45) {
+                            //     check_45 = false;
+                            //     check_10 = true;
+                            //     check_15 = true;
+                            //     check_20 = true;
+                            //     check_25 = true;
+                            //     check_30 = true;
+                            //     check_35 = true;
+                            //     check_40 = true;
+                            //     check_5 = true;
+                            //     check_50 = true;
+                            //   }
+                            //   else
+                            //   {
+                            //     check_45 = true;
+                            //   }
+                            // });
 
                           },
-                          child: CircleAvatar(
-                            backgroundColor: check_45 ? ksplashback.withOpacity(0.4) : ksplashback,
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text("45",
-                                  style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle(fontSize: 30,color: Colors.white70,fontWeight: FontWeight.w800,))
+                          child: Stack(
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: check_45 ? ksplashback.withOpacity(0.4) : ksplashback,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text("45",
+                                      style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle(fontSize: 30,color: Colors.white70,fontWeight: FontWeight.w800,))
+                                  ),
+                                ),
+                                maxRadius: 30,
                               ),
-                            ),
-                            maxRadius: 30,
+                              Positioned.fill(
+
+                                  child: Align(
+                                      alignment: Alignment.topRight,
+                                      child: Icon(Icons.lock,color: Colors.white70,size: 22,)))
+
+                            ],
                           ),
                         ),
                         GestureDetector(
                           onTap : () {
-                            currentNoQ = '50';
 
-                            saveNoQ(currentNoQ);
-                            if(getSoundMode!) {
-                              assetsAudioPlayer.open(
-                                Audio("assets/audios/click.wav"),
-                              );
-                            }
-                            setState(() {
-                              if(check_50) {
-                                check_50 = false;
-                                check_10 = true;
-                                check_15 = true;
-                                check_20 = true;
-                                check_25 = true;
-                                check_30 = true;
-                                check_35 = true;
-                                check_40 = true;
-                                check_45 = true;
-                                check_5 = true;
-                              }
-                              else
-                              {
-                                check_50 = true;
-                              }
-                            });
+                            buyPaidApp();
+
+                            //
+                            // currentNoQ = '50';
+                            //
+                            // saveNoQ(currentNoQ);
+                            // if(getSoundMode!) {
+                            //   assetsAudioPlayer.open(
+                            //     Audio("assets/audios/click.wav"),
+                            //   );
+                            // }
+                            // setState(() {
+                            //   if(check_50) {
+                            //     check_50 = false;
+                            //     check_10 = true;
+                            //     check_15 = true;
+                            //     check_20 = true;
+                            //     check_25 = true;
+                            //     check_30 = true;
+                            //     check_35 = true;
+                            //     check_40 = true;
+                            //     check_45 = true;
+                            //     check_5 = true;
+                            //   }
+                            //   else
+                            //   {
+                            //     check_50 = true;
+                            //   }
+                            // });
+
+
                           },
-                          child: CircleAvatar(
-                            backgroundColor: check_50 ? ksplashback.withOpacity(0.4) : ksplashback,
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text("50",
-                                  style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle(fontSize: 30,color: Colors.white70,fontWeight: FontWeight.w800,))
+                          child: Stack(
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: check_50 ? ksplashback.withOpacity(0.4) : ksplashback,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text("50",
+                                      style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle(fontSize: 30,color: Colors.white70,fontWeight: FontWeight.w800,))
+                                  ),
+                                ),
+                                maxRadius: 30,
                               ),
-                            ),
-                            maxRadius: 30,
+                              Positioned.fill(
+
+                                  child: Align(
+                                      alignment: Alignment.topRight,
+                                      child: Icon(Icons.lock,color: Colors.white70,size: 22,)))
+
+                            ],
                           ),
                         ),
 
@@ -635,26 +704,29 @@ class _SettingScreenState extends State<SettingScreen> {
                         ),
                         GestureDetector(
                           onTap : () {
-                            currentQMode = 'hard';
 
-                            saveQMode(currentQMode);
-                            if(getSoundMode!) {
-                              assetsAudioPlayer.open(
-                                Audio("assets/audios/click.wav"),
-                              );
-                            }
-                            setState(() {
-                              if(hard_check) {
-                                hard_check = false;
-                                easy_check = true;
-                                medium_check = true;
+                            buyPaidApp();
 
-                              }
-                              else
-                              {
-                                hard_check = true;
-                              }
-                            });
+                            // currentQMode = 'hard';
+                            //
+                            // saveQMode(currentQMode);
+                            // if(getSoundMode!) {
+                            //   assetsAudioPlayer.open(
+                            //     Audio("assets/audios/click.wav"),
+                            //   );
+                            // }
+                            // setState(() {
+                            //   if(hard_check) {
+                            //     hard_check = false;
+                            //     easy_check = true;
+                            //     medium_check = true;
+                            //
+                            //   }
+                            //   else
+                            //   {
+                            //     hard_check = true;
+                            //   }
+                            // });
                           },
                           child: Stack(
                             children: [
@@ -665,11 +737,11 @@ class _SettingScreenState extends State<SettingScreen> {
                                 ),
                                 maxRadius: 44,
                               ),
-                              // Positioned.fill(
-                              //
-                              //     child: Align(
-                              //         alignment: Alignment.topRight,
-                              //         child: Icon(Icons.lock,color: Colors.white70,size: 30,)))
+                              Positioned.fill(
+
+                                  child: Align(
+                                      alignment: Alignment.topRight,
+                                      child: Icon(Icons.lock,color: Colors.white70,size: 30,)))
 
                             ],
                           ),
@@ -1022,12 +1094,12 @@ class _SettingScreenState extends State<SettingScreen> {
                 padding: const EdgeInsets.only(left:20.0,right: 20.0),
                 child: GestureDetector(
                   onTap: () {
+                    buyPaidApp();
                     if(getSoundMode!) {
                       assetsAudioPlayer.open(
                         Audio("assets/audios/click.wav"),
                       );
                     }
-                    Navigator.pop(context);
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -1242,6 +1314,13 @@ class _SettingScreenState extends State<SettingScreen> {
     else if (getQMode == 'hard') {
       hard_check = false;
     }
+  }
+
+  void buyPaidApp() {
+    LaunchReview.launch(
+      androidAppId: androidAppIdValueForPaidApp,
+      iOSAppId: iOSAppIdValue,);
+
   }
 
 }

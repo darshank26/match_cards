@@ -7,11 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_shakemywidget/flutter_shakemywidget.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:match_cards/Screens/ResultScreen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xrandom/xrandom.dart';
 
+import '../AdHelper/adshelper.dart';
 import '../utils/constants.dart';
 import 'HomeScreens.dart';
 
@@ -59,6 +61,9 @@ class _AddScreenState extends State<AddScreen> {
   int _seconds = 0;
   bool _timerRunning = false;
 
+  late BannerAd _bannerAd;
+
+  bool _isBannerAdReady = false;
 
   late bool soundMode ;
 
@@ -67,6 +72,7 @@ class _AddScreenState extends State<AddScreen> {
   @override
   void dispose() {
     _timer.cancel();
+    _bannerAd.dispose();
     super.dispose();
   }
 
@@ -114,7 +120,24 @@ class _AddScreenState extends State<AddScreen> {
 
     print(ans.toString());
 
-
+    _bannerAd = BannerAd(
+      adUnitId: AdHelper.bannerAdUnitIdOfHomeScreen,
+      request: AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print('Failed to load a banner ad: ${err.message}');
+          _isBannerAdReady = false;
+          ad.dispose();
+        },
+      ),
+    );
+    _bannerAd.load();
 
   }
 
@@ -129,6 +152,13 @@ class _AddScreenState extends State<AddScreen> {
       getSoundMode = prefs.getBool('SMode')!;
 
       print("------${getSoundMode.toString()}");
+
+      if(getSoundMode == null)
+
+      {
+        getSoundMode = true;
+      }
+
 
       if (getSoundMode!) {
         soundMode = true;
@@ -148,422 +178,435 @@ class _AddScreenState extends State<AddScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kback,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(height: 80,),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Center(
-                  child: Text("${_checkCounter}/${getQData}",
-                      style: GoogleFonts.akayaTelivigala(textStyle: TextStyle( height: 0.1,fontSize: 30,color: Colors.white70,fontWeight: FontWeight.w800,))
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(height: 80,),
+            Padding(
+              padding: const EdgeInsets.only(left: 15.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Center(
+                    child: Text("${_checkCounter}/${getQData}",
+                        style: GoogleFonts.akayaTelivigala(textStyle: TextStyle( height: 0.1,fontSize: 30,color: Colors.white70,fontWeight: FontWeight.w800,))
+                    ),
                   ),
-                ),
 
-              ],
+                ],
+              ),
             ),
-          ),
 
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Center(
+                    child:
+                  getQMode == 'hard' ?
+                    Text(n1,
+                        style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 120,color: Colors.white70,fontWeight: FontWeight.w900,))
+                    ) :
+                  Text(n1,
+                      style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 180,color: Colors.white70,fontWeight: FontWeight.w900,))
+                  ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 150,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Center(
                   child:
-                getQMode == 'hard' ?
-                  Text(n1,
+                  getQMode == 'hard' ?
+
+                Text("+",
+                style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 120,color: Colors.white70,fontWeight: FontWeight.w900,))
+            ) :
+                  Text("+",
+                      style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 150,color: Colors.white70,fontWeight: FontWeight.w900,))
+                  ),
+                ),
+                SizedBox(width: 20,),
+                Center(
+                  child:
+                  getQMode == 'hard' ?
+                  Text(n2,
                       style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 120,color: Colors.white70,fontWeight: FontWeight.w900,))
                   ) :
-                Text(n1,
-                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 180,color: Colors.white70,fontWeight: FontWeight.w900,))
-                ),
+                  Text(n2,
+                      style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 180,color: Colors.white70,fontWeight: FontWeight.w900,))
+                  ),
                 ),
               ],
             ),
-          ),
-          SizedBox(height: 150,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Center(
-                child:
-                getQMode == 'hard' ?
-
-              Text("+",
-              style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 120,color: Colors.white70,fontWeight: FontWeight.w900,))
-          ) :
-                Text("+",
-                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 150,color: Colors.white70,fontWeight: FontWeight.w900,))
-                ),
-              ),
-              SizedBox(width: 20,),
-              Center(
-                child:
-                getQMode == 'hard' ?
-                Text(n2,
-                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 120,color: Colors.white70,fontWeight: FontWeight.w900,))
-                ) :
-                Text(n2,
-                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 180,color: Colors.white70,fontWeight: FontWeight.w900,))
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 100,),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(left:20.0,right: 20.0),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white70,
-                    border: Border.all(
+            SizedBox(height: 100,),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(left:20.0,right: 20.0),
+                child: Container(
+                  decoration: BoxDecoration(
                       color: Colors.white70,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(20))
+                      border: Border.all(
+                        color: Colors.white70,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(20))
+                  ),
+                  width: double.infinity,
+                  height: 20,
                 ),
-                width: double.infinity,
-                height: 20,
-              ),
-            )
-          ),
-          SizedBox(height: 20,),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap : () {
+              )
+            ),
+            SizedBox(height: 20,),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap : () {
 
-                            if(ans == "0")
-                            {
+                              if(ans == "0")
+                              {
 
-                            if(getSoundMode) {
-                              assetsAudioPlayer.open(
-                                Audio("assets/audios/correct.wav"),
-                              );
-                            }
-                              _countCorrect = _countCorrect + 1;
-                              print(_countCorrect);
+                              if(getSoundMode) {
+                                assetsAudioPlayer.open(
+                                  Audio("assets/audios/correct.wav"),
+                                );
+                              }
+                                _countCorrect = _countCorrect + 1;
+                                print(_countCorrect);
 
 
-                              if(_checkCounter == int.parse(getQData))
+                                if(_checkCounter == int.parse(getQData))
+                                  {
+                                    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: AddScreen()));
+                                  }
+                                else
+                                  {
+                                    getNewData();
+                                    updateCounter();
+                                  }
+
+                              }
+                              else
+                                {
+                                  if(_countWrong_0 == false)
+                                  {
+                                    _countWorng = _countWorng + 1;
+
+                                      _countWrong_0 = true;
+                                      _countWrong_1 = true;
+                                      _countWrong_2 = true;
+                                      _countWrong_3 = true;
+
+
+                                  }
+                                  shakeKey_0.currentState?.shake();
+
+                                  if(getSoundMode) {
+                                    assetsAudioPlayer.open(
+                                      Audio("assets/audios/wrong.wav"),
+                                    );
+                                  }
+                                }
+
+                          },
+                          child: ShakeMe(
+                            key: shakeKey_0,
+                            // 5. configure the animation parameters
+                            shakeCount: 3,
+                            shakeOffset: 10,
+                            child: CircleAvatar(
+                              backgroundColor: ksplashback,
+                              maxRadius: 70,
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: ans == "0" ? Text('${(int.parse(n1) + int.parse(n2)).toString()}' ,
+                                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
+                                ) :(
+                                    (getQMode == 'easy')
+                                    ? Text('${(int.parse(rand_1)).toString()}' ,
+                                        style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
+                                            : (
+                                        (getQMode == 'medium')
+                                            ? Text('${(int.parse(rand_1)).toString()}' ,
+                                            style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
+                                        : Text('${(int.parse(rand_1)).toString()}' ,
+                                            style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
+                                    )),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        GestureDetector(
+                          onTap : () {
+
+
+                              if(ans == "1")
+                              {
+
+                                if(getSoundMode) {
+                                  assetsAudioPlayer.open(
+                                    Audio("assets/audios/correct.wav"),
+                                  );
+                                }
+
+                                _countCorrect = _countCorrect + 1;
+                                print(_countCorrect);
+
+
+                                if(_checkCounter == int.parse(getQData))
                                 {
                                   Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: AddScreen()));
                                 }
-                              else
+                                else
                                 {
                                   getNewData();
                                   updateCounter();
                                 }
 
-                            }
-                            else
-                              {
-                                if(_countWrong_0 == false)
-                                {
-                                  _countWorng = _countWorng + 1;
 
+                              }
+                              else
+                                {
+                                  if(_countWrong_1 == false)
+                                  {
+                                    _countWorng = _countWorng + 1;
+                                    _countWrong_0 = true;
+                                    _countWrong_1 = true;
+                                    _countWrong_2 = true;
+                                    _countWrong_3 = true;                                }
+
+                                  shakeKey_1.currentState?.shake();
+
+                                  if(getSoundMode) {
+                                    assetsAudioPlayer.open(
+                                      Audio("assets/audios/wrong.wav"),
+                                    );
+                                  }
+                                }
+
+                          },
+                          child: ShakeMe(
+                            key: shakeKey_1,
+                            // 5. configure the animation parameters
+                            shakeCount: 3,
+                            shakeOffset: 10,
+                            child: CircleAvatar(
+                              backgroundColor: ksplashback,
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: ans == "1" ? Text('${(int.parse(n1) + int.parse(n2)).toString()}' ,
+                                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
+                                ) :(
+                                    (getQMode == 'easy')
+                                        ? Text('${(int.parse(rand_2)).toString()}' ,
+                                        style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
+                                        : (
+                                        (getQMode == 'medium')
+                                            ? Text('${(int.parse(rand_2)).toString()}' ,
+                                            style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
+                                            : Text('${(int.parse(rand_2).toString())}' ,
+                                            style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
+                                    )),
+                              ),
+                              maxRadius: 70,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 30,),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap : () {
+
+                              if(ans == "2")
+                              {
+                              if(getSoundMode) {
+                                assetsAudioPlayer.open(
+                                  Audio("assets/audios/correct.wav"),
+                                );
+                              }
+
+                                _countCorrect = _countCorrect + 1;
+
+                                print(_countCorrect);
+
+
+
+                                if(_checkCounter == int.parse(getQData))
+                                {
+                                  Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: AddScreen()));
+                                }
+                                else
+                                {
+                                  getNewData();
+                                  updateCounter();
+                                }
+
+                              }
+                              else
+                                {
+
+                                  if(_countWrong_2 == false)
+                                  {
+                                    _countWorng = _countWorng + 1;
+                                    _countWrong_0 = true;
+                                    _countWrong_1 = true;
+                                    _countWrong_2 = true;
+                                    _countWrong_3 = true;                                }
+                                  shakeKey_2.currentState?.shake();
+                                  if(getSoundMode) {
+                                    assetsAudioPlayer.open(
+                                      Audio("assets/audios/wrong.wav"),
+                                    );
+                                  }
+
+                                }
+
+                            },
+                          child: ShakeMe(
+                            key: shakeKey_2,
+                            shakeCount: 3,
+                            shakeOffset: 10,
+                            child: CircleAvatar(
+                              backgroundColor: ksplashback,
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: ans == "2" ? Text('${(int.parse(n1) + int.parse(n2)).toString()}' ,
+                                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
+                                ) :(
+                                    (getQMode == 'easy')
+                                        ? Text('${(int.parse(rand_3)).toString()}' ,
+                                        style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
+                                        : (
+                                        (getQMode == 'medium')
+                                            ? Text('${(int.parse(rand_3)).toString()}' ,
+                                            style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
+                                            : Text('${(int.parse(rand_3)).toString()}' ,
+                                            style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
+                                    )),
+                              ),
+                              maxRadius: 70,
+                            ),
+                          ),
+                        ),
+
+                        GestureDetector(
+                          onTap : () {
+
+
+                              if(ans == "3")
+                              {
+                                if(getSoundMode) {
+                                  assetsAudioPlayer.open(
+                                    Audio("assets/audios/correct.wav"),
+                                  );
+                                }
+
+                                _countCorrect = _countCorrect + 1;
+                                print(_countCorrect);
+
+
+
+                                if(_checkCounter == int.parse(getQData))
+                                {
+                                  Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: AddScreen()));
+                                }
+                                else
+                                {
+                                  getNewData();
+                                  updateCounter();
+                                }
+
+
+                              }else
+                                {
+                                  if(_countWrong_3 == false) {
+                                    _countWorng = _countWorng + 1;
                                     _countWrong_0 = true;
                                     _countWrong_1 = true;
                                     _countWrong_2 = true;
                                     _countWrong_3 = true;
+                                  }
+                                  shakeKey_3.currentState?.shake();
 
+                                  if(getSoundMode) {
+                                    assetsAudioPlayer.open(
+                                      Audio("assets/audios/wrong.wav"),
+                                    );
+                                  }
 
                                 }
-                                shakeKey_0.currentState?.shake();
 
-                                if(getSoundMode) {
-                                  assetsAudioPlayer.open(
-                                    Audio("assets/audios/wrong.wav"),
-                                  );
-                                }
-                              }
-
-                        },
-                        child: ShakeMe(
-                          key: shakeKey_0,
-                          // 5. configure the animation parameters
-                          shakeCount: 3,
-                          shakeOffset: 10,
-                          child: CircleAvatar(
-                            backgroundColor: ksplashback,
-                            maxRadius: 70,
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: ans == "0" ? Text('${(int.parse(n1) + int.parse(n2)).toString()}' ,
-                                  style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
-                              ) :(
-                                  (getQMode == 'easy')
-                                  ? Text('${(int.parse(rand_1)).toString()}' ,
-                                      style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                          : (
-                                      (getQMode == 'medium')
-                                          ? Text('${(int.parse(rand_1)).toString()}' ,
-                                          style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                      : Text('${(int.parse(rand_1)).toString()}' ,
-                                          style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                  )),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      GestureDetector(
-                        onTap : () {
-
-
-                            if(ans == "1")
-                            {
-
-                              if(getSoundMode) {
-                                assetsAudioPlayer.open(
-                                  Audio("assets/audios/correct.wav"),
-                                );
-                              }
-
-                              _countCorrect = _countCorrect + 1;
-                              print(_countCorrect);
-
-
-                              if(_checkCounter == int.parse(getQData))
-                              {
-                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: AddScreen()));
-                              }
-                              else
-                              {
-                                getNewData();
-                                updateCounter();
-                              }
-
-
-                            }
-                            else
-                              {
-                                if(_countWrong_1 == false)
-                                {
-                                  _countWorng = _countWorng + 1;
-                                  _countWrong_0 = true;
-                                  _countWrong_1 = true;
-                                  _countWrong_2 = true;
-                                  _countWrong_3 = true;                                }
-
-                                shakeKey_1.currentState?.shake();
-
-                                if(getSoundMode) {
-                                  assetsAudioPlayer.open(
-                                    Audio("assets/audios/wrong.wav"),
-                                  );
-                                }
-                              }
-
-                        },
-                        child: ShakeMe(
-                          key: shakeKey_1,
-                          // 5. configure the animation parameters
-                          shakeCount: 3,
-                          shakeOffset: 10,
-                          child: CircleAvatar(
-                            backgroundColor: ksplashback,
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: ans == "1" ? Text('${(int.parse(n1) + int.parse(n2)).toString()}' ,
-                                  style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
-                              ) :(
-                                  (getQMode == 'easy')
-                                      ? Text('${(int.parse(rand_2)).toString()}' ,
-                                      style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                      : (
-                                      (getQMode == 'medium')
-                                          ? Text('${(int.parse(rand_2)).toString()}' ,
-                                          style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                          : Text('${(int.parse(rand_2).toString())}' ,
-                                          style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                  )),
-                            ),
-                            maxRadius: 70,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 30,),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap : () {
-
-                            if(ans == "2")
-                            {
-                            if(getSoundMode) {
-                              assetsAudioPlayer.open(
-                                Audio("assets/audios/correct.wav"),
-                              );
-                            }
-
-                              _countCorrect = _countCorrect + 1;
-
-                              print(_countCorrect);
-
-
-
-                              if(_checkCounter == int.parse(getQData))
-                              {
-                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: AddScreen()));
-                              }
-                              else
-                              {
-                                getNewData();
-                                updateCounter();
-                              }
-
-                            }
-                            else
-                              {
-
-                                if(_countWrong_2 == false)
-                                {
-                                  _countWorng = _countWorng + 1;
-                                  _countWrong_0 = true;
-                                  _countWrong_1 = true;
-                                  _countWrong_2 = true;
-                                  _countWrong_3 = true;                                }
-                                shakeKey_2.currentState?.shake();
-                                if(getSoundMode) {
-                                  assetsAudioPlayer.open(
-                                    Audio("assets/audios/wrong.wav"),
-                                  );
-                                }
-
-                              }
 
                           },
-                        child: ShakeMe(
-                          key: shakeKey_2,
-                          shakeCount: 3,
-                          shakeOffset: 10,
-                          child: CircleAvatar(
-                            backgroundColor: ksplashback,
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: ans == "2" ? Text('${(int.parse(n1) + int.parse(n2)).toString()}' ,
-                                  style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
-                              ) :(
-                                  (getQMode == 'easy')
-                                      ? Text('${(int.parse(rand_3)).toString()}' ,
-                                      style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                      : (
-                                      (getQMode == 'medium')
-                                          ? Text('${(int.parse(rand_3)).toString()}' ,
-                                          style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                          : Text('${(int.parse(rand_3)).toString()}' ,
-                                          style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                  )),
+                          child: ShakeMe(
+                            key: shakeKey_3,
+                            shakeCount: 3,
+                            shakeOffset: 10,
+                            child: CircleAvatar(
+                              backgroundColor: ksplashback,
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: ans == "3" ? Text('${(int.parse(n1) + int.parse(n2)).toString()}' ,
+                                    style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
+                                ) :(
+                                    (getQMode == 'easy')
+                                        ? Text('${(int.parse(rand_4)).toString()}' ,
+                                        style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
+                                        : (
+                                        (getQMode == 'medium')
+                                            ? Text('${(int.parse(rand_4)).toString()}' ,
+                                            style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
+                                            : Text('${(int.parse(rand_4).toString())}' ,
+                                            style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
+                                    )),
+                              ),
+                              maxRadius: 70,
                             ),
-                            maxRadius: 70,
                           ),
                         ),
-                      ),
-
-                      GestureDetector(
-                        onTap : () {
-
-
-                            if(ans == "3")
-                            {
-                              if(getSoundMode) {
-                                assetsAudioPlayer.open(
-                                  Audio("assets/audios/correct.wav"),
-                                );
-                              }
-
-                              _countCorrect = _countCorrect + 1;
-                              print(_countCorrect);
-
-
-
-                              if(_checkCounter == int.parse(getQData))
-                              {
-                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.topToBottom, child: ResultScreen(_countCorrect.toString(),_countWorng.toString(),getQData.toString(),formatTime(_seconds)), childCurrent: AddScreen()));
-                              }
-                              else
-                              {
-                                getNewData();
-                                updateCounter();
-                              }
-
-
-                            }else
-                              {
-                                if(_countWrong_3 == false) {
-                                  _countWorng = _countWorng + 1;
-                                  _countWrong_0 = true;
-                                  _countWrong_1 = true;
-                                  _countWrong_2 = true;
-                                  _countWrong_3 = true;
-                                }
-                                shakeKey_3.currentState?.shake();
-
-                                if(getSoundMode) {
-                                  assetsAudioPlayer.open(
-                                    Audio("assets/audios/wrong.wav"),
-                                  );
-                                }
-
-                              }
-
-
-                        },
-                        child: ShakeMe(
-                          key: shakeKey_3,
-                          shakeCount: 3,
-                          shakeOffset: 10,
-                          child: CircleAvatar(
-                            backgroundColor: ksplashback,
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: ans == "3" ? Text('${(int.parse(n1) + int.parse(n2)).toString()}' ,
-                                  style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,))
-                              ) :(
-                                  (getQMode == 'easy')
-                                      ? Text('${(int.parse(rand_4)).toString()}' ,
-                                      style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                      : (
-                                      (getQMode == 'medium')
-                                          ? Text('${(int.parse(rand_4)).toString()}' ,
-                                          style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                          : Text('${(int.parse(rand_4).toString())}' ,
-                                          style: GoogleFonts.mPlusRounded1c(textStyle: TextStyle( height: 0.1,fontSize: 46,color: Colors.white70,fontWeight: FontWeight.w900,)))
-                                  )),
-                            ),
-                            maxRadius: 70,
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
 
-              ],
+                ],
+              ),
             ),
-          ),
 
+          ],
+        ),
+      ),
+      bottomNavigationBar: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (_isBannerAdReady)
+            Container(
+              width: _bannerAd.size.width.toDouble(),
+              height: _bannerAd.size.height.toDouble(),
+              child: AdWidget(ad: _bannerAd),
+            ),
         ],
       ),
 
@@ -575,6 +618,11 @@ class _AddScreenState extends State<AddScreen> {
       getQData = prefs.getString('NoOfQ');
     });
 
+    if(getQData == null)
+      {
+        getQData = '5';
+      }
+
   }
 
   Future<void> getQMo() async {
@@ -583,7 +631,12 @@ class _AddScreenState extends State<AddScreen> {
       getQMode = prefs.getString('QMode');
     });
 
+
+
     setState(() {
+
+      getQMode ??= 'easy';
+
       if(getQMode == 'easy')
       {
 
